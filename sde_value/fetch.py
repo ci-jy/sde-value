@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import io
 import os
+import shutil
+import subprocess
 import tempfile
 import urllib.request
 import zipfile
@@ -100,6 +102,15 @@ ECEC_SERIES = {
 
 
 def download(url: str, dest: Path) -> Path:
+    # BLS's CDN turns away Python's TLS client even with browser headers, so
+    # use curl when it is installed and fall back to urllib otherwise.
+    curl = shutil.which("curl")
+    if curl:
+        cmd = [curl, "-sSfL", "--compressed", "-o", str(dest)]
+        for key, value in HEADERS.items():
+            cmd += ["-H", f"{key}: {value}"]
+        subprocess.run(cmd + [url], check=True, timeout=300)
+        return dest
     req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req, timeout=120) as resp, open(dest, "wb") as fh:
         fh.write(resp.read())
