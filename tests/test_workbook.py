@@ -33,6 +33,9 @@ def test_libreoffice_matches_engine(tmp_path, deal_path):
     path = build_workbook(deal, tmp_path / f"{deal.slug}.xlsx")
     result = check_workbook(path)
     assert result.ok, (result.mismatches, result.missing)
+    if deal.slug == "hvac_service":
+        # 12 add-backs and 7 multiples: every one of the 105 output cells is compared
+        assert result.compared == 105
     # and the workbook agrees with the engine run straight from the deal file
     direct = value_deal(deal)
     assert result.workbook["o_repriced_value"] == pytest.approx(direct["repriced_value"], abs=0.005)

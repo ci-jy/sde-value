@@ -18,3 +18,16 @@ def test_average_cut_across_samples(capsys, deal_path):
     paths = sorted(deal_path.parent.glob("*.yaml"))
     assert main(["summary", *map(str, paths)]) == 0
     assert "Average cut across 3 deals: 59.9%" in capsys.readouterr().out
+
+
+def test_hvac_addback_screening(hvac):
+    o = value_deal(hvac)
+    assert o["claimed_total"] == 291_800
+    assert o["rejected_total"] == 92_700
+
+
+def test_hvac_margins_against_industry(hvac):
+    o = value_deal(hvac)
+    assert o["seller_sde_margin"] == pytest.approx(0.161, abs=0.0005)
+    assert o["normalised_ebitda_margin"] == pytest.approx(0.065, abs=0.0005)
+    assert o["base_industry_ebitda_margin"] == pytest.approx(0.072, abs=0.0005)
