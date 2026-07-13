@@ -1,0 +1,111 @@
+# Sample deal: residential HVAC service and replacement company.
+# Every P&L line is 2.4M of revenue times the IRS SOI Table 5.1 ratio for
+# "Plumbing, heating, and air-conditioning contractors" (tax year 2022),
+# rounded to the nearest $100. The add-backs are the kind a broker's
+# recast would list for a business like this; amounts sit inside the line
+# they come from.
+name: Lone Star Comfort Air (sample)
+description: Residential HVAC service, maintenance agreements and system replacement, owner runs dispatch and sales
+industry:
+  soi: plumbing_hvac
+  naics: "238200"        # OES: Building Equipment Contractors
+state: TX
+fiscal_year_label: Trailing twelve months, as recast by the broker
+asking:
+  multiple: 4.0          # broker's SDE multiple
+replacement:
+  soc: "11-1021"         # General and Operations Managers
+  percentile: median
+  fte: 1.0
+  benefits_group: small_establishment
+pnl:
+  revenue: 2400000
+  cogs: 1587100
+  officer_comp: 81100
+  salaries_wages: 201800
+  repairs: 8900
+  rent: 37400
+  taxes_licenses: 60000
+  interest: 6500
+  depreciation: 42700
+  amortization: 8400
+  advertising: 17300
+  pension: 10600
+  employee_benefits: 44200
+  other_deductions: 199000
+addbacks:
+  - item: Owner salary
+    line: officer_comp
+    label: owner compensation
+    amount: 81100
+    support: W-2 and payroll register
+    years_seen: 3
+  - item: Owner family health plan
+    line: employee_benefits
+    label: owner compensation
+    amount: 21600
+    support: Carrier invoices
+    years_seen: 3
+  - item: Owner 401(k) match
+    line: pension
+    label: owner compensation
+    amount: 8000
+    support: Plan statements
+    years_seen: 3
+  - item: Depreciation
+    line: depreciation
+    label: non-cash
+    amount: 42700
+    support: Tax return Form 4562
+  - item: Amortization of customer list
+    line: amortization
+    label: non-cash
+    amount: 8400
+    support: Tax return Form 4562
+  - item: Interest on equipment loan
+    line: interest
+    label: financing
+    amount: 6500
+    support: Loan statements
+  - item: Spouse on payroll (bookkeeping)
+    line: salaries_wages
+    label: discretionary
+    amount: 38000
+    support: W-2
+    years_seen: 3
+    continues: true
+    note: Books and payroll still need doing; a new owner hires a bookkeeper
+  - item: Owner F-250 lease and fuel
+    line: other_deductions
+    label: discretionary
+    amount: 18500
+    support: Lease agreement, fuel card statements
+    years_seen: 3
+    continues: true
+    note: Truck is used for sales calls and emergency service runs
+  - item: Settlement of a customer property-damage claim
+    line: other_deductions
+    label: one-time
+    amount: 24000
+    support: Settlement agreement and attorney invoice
+    years_seen: 1
+  - item: Compressor warranty callbacks
+    line: cogs
+    label: one-time
+    amount: 31000
+    support: Parts invoices
+    years_seen: 3
+    note: Broker calls it a bad batch of compressors; it shows up in all three years
+  - item: Family phones and country club dues
+    line: other_deductions
+    label: discretionary
+    amount: 6800
+    support: Card statements
+    years_seen: 3
+  - item: Trade show trip to Las Vegas
+    line: advertising
+    label: discretionary
+    amount: 5200
+    support: none provided
+    documented: false
+    years_seen: 1

@@ -1,0 +1,94 @@
+# Sample deal: commercial and residential landscaping maintenance.
+# P&L lines are 1.15M of revenue times the IRS SOI Table 5.1 ratios for
+# "Other administrative and support services" (tax year 2022, the minor
+# industry that contains NAICS 5617), rounded to $100.
+name: Piedmont Grounds Co. (sample)
+description: Landscaping maintenance for HOAs and small commercial sites, four crews, owner sells and schedules
+industry:
+  soi: other_admin_support
+  naics: "561700"        # OES: Services to Buildings and Dwellings
+state: NC
+fiscal_year_label: Last fiscal year, broker's recast
+asking:
+  multiple: 3.5
+replacement:
+  soc: "11-1021"
+  percentile: median
+  fte: 1.0
+  benefits_group: small_establishment
+pnl:
+  revenue: 1150000
+  cogs: 394100
+  officer_comp: 38200
+  salaries_wages: 275100
+  repairs: 10100
+  rent: 24700
+  taxes_licenses: 38600
+  interest: 16200
+  depreciation: 27300
+  amortization: 14500
+  advertising: 13300
+  pension: 4500
+  employee_benefits: 23000
+  other_deductions: 219200
+addbacks:
+  - item: Owner salary
+    line: officer_comp
+    label: owner compensation
+    amount: 38200
+    support: W-2
+    years_seen: 3
+  - item: Owner health insurance
+    line: employee_benefits
+    label: owner compensation
+    amount: 9000
+    support: Carrier invoices
+    years_seen: 3
+  - item: Depreciation on mowers and trucks
+    line: depreciation
+    label: non-cash
+    amount: 27300
+    support: Tax return Form 4562
+  - item: Amortization
+    line: amortization
+    label: non-cash
+    amount: 14500
+    support: Tax return Form 4562
+  - item: Interest on truck and equipment notes
+    line: interest
+    label: financing
+    amount: 16200
+    support: Loan statements
+  - item: Owner's wife on payroll (scheduling and billing)
+    line: salaries_wages
+    label: discretionary
+    amount: 42000
+    support: W-2
+    years_seen: 3
+    continues: true
+    note: She runs the crew schedule; a buyer would have to hire an office manager
+  - item: Equipment rental for hurricane cleanup
+    line: other_deductions
+    label: one-time
+    amount: 18000
+    support: Rental agreements
+    years_seen: 1
+  - item: Boat and fishing trips
+    line: other_deductions
+    label: discretionary
+    amount: 11000
+    support: none provided
+    documented: false
+    years_seen: 3
+  - item: Truck transmission rebuilds
+    line: repairs
+    label: one-time
+    amount: 9800
+    support: Shop invoices
+    years_seen: 3
+  - item: Family phone plan
+    line: other_deductions
+    label: discretionary
+    amount: 3600
+    support: Carrier statements
+    years_seen: 3

@@ -1,0 +1,94 @@
+# Sample deal: self-service laundromat with wash-and-fold.
+# P&L lines are 640k of revenue times the IRS SOI Table 5.1 ratios for
+# "Personal and laundry services" (tax year 2022), rounded to $100.
+name: Maple Street Laundry (sample)
+description: Self-service laundromat with wash-and-fold and two attendants, owner covers mornings and maintenance
+industry:
+  soi: personal_laundry
+  naics: "812300"        # OES: Drycleaning and Laundry Services
+state: OH
+fiscal_year_label: Last fiscal year, seller's recast
+asking:
+  multiple: 4.5
+replacement:
+  soc: "11-1021"
+  percentile: median
+  fte: 0.5               # semi-absentee: a part-time manager covers what the owner did
+  benefits_group: small_establishment
+pnl:
+  revenue: 640000
+  cogs: 155000
+  officer_comp: 38100
+  salaries_wages: 137900
+  repairs: 9700
+  rent: 53300
+  taxes_licenses: 23000
+  interest: 8300
+  depreciation: 19600
+  amortization: 4600
+  advertising: 10600
+  pension: 2900
+  employee_benefits: 6900
+  other_deductions: 144600
+addbacks:
+  - item: Owner salary
+    line: officer_comp
+    label: owner compensation
+    amount: 38100
+    support: W-2
+    years_seen: 3
+  - item: Owner health insurance
+    line: employee_benefits
+    label: owner compensation
+    amount: 6000
+    support: Carrier invoices
+    years_seen: 3
+  - item: Depreciation on machines
+    line: depreciation
+    label: non-cash
+    amount: 19600
+    support: Depreciation schedule
+  - item: Amortization of lease costs
+    line: amortization
+    label: non-cash
+    amount: 4600
+    support: Depreciation schedule
+  - item: Interest on machine financing
+    line: interest
+    label: financing
+    amount: 8300
+    support: Lender statements
+  - item: Son working weekend shifts
+    line: salaries_wages
+    label: discretionary
+    amount: 14000
+    support: Payroll register
+    years_seen: 3
+    continues: true
+    note: Weekend shifts still need staffing at the attendant wage
+  - item: Replaced six front-load washers (expensed)
+    line: other_deductions
+    label: one-time
+    amount: 22000
+    support: Distributor invoice
+    years_seen: 2
+    note: A similar batch was expensed the year before; machines age out on a cycle
+  - item: Owner personal vehicle
+    line: other_deductions
+    label: discretionary
+    amount: 7500
+    support: Lease agreement
+    years_seen: 3
+  - item: Water leak cleanup
+    line: other_deductions
+    label: one-time
+    amount: 9500
+    support: Restoration company invoice, insurance denial letter
+    years_seen: 1
+  - item: Home internet and phone
+    line: other_deductions
+    label: discretionary
+    amount: 2400
+    support: none provided
+    documented: false
+    years_seen: 3
