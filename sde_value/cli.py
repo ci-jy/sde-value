@@ -49,6 +49,24 @@ def cmd_check(args) -> int:
     return 0 if result.ok else 1
 
 
+def cmd_summary(args) -> int:
+    from .engine import value_deal
+
+    print(f"{'Deal':34} {'Seller SDE':>11} {'Norm. EBITDA':>12} {'Asking':>12} "
+          f"{'Repriced':>12} {'Cut':>6}")
+    cuts = []
+    for path in args.deals:
+        deal = load_deal(path)
+        o = value_deal(deal)
+        cuts.append(o["value_cut_pct"])
+        print(f"{deal.name[:34]:34} {_money(o['seller_sde']):>11} "
+              f"{_money(o['normalised_ebitda']):>12} {_money(o['asking_value']):>12} "
+              f"{_money(o['repriced_value']):>12} {o['value_cut_pct']:>6.1%}")
+    if cuts:
+        print(f"Average cut across {len(cuts)} deals: {sum(cuts) / len(cuts):.1%}")
+    return 0
+
+
 def cmd_fetch(args) -> int:
     from .fetch import refresh
 
@@ -68,6 +86,9 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("workbook")
     c.add_argument("--keep", help="keep the recalculated copy in this directory")
     c.set_defaults(func=cmd_check)
+    s = sub.add_parser("summary", help="print seller vs repriced value for several deals")
+    s.add_argument("deals", nargs="+")
+    s.set_defaults(func=cmd_summary)
     f = sub.add_parser("fetch-data", help="download BLS/SOI files and rebuild data/ extracts")
     f.set_defaults(func=cmd_fetch)
     args = p.parse_args(argv)

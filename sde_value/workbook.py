@@ -173,14 +173,14 @@ def _inputs_sheet(b: Builder, deal: Deal, m: ModelInputs, src: dict) -> None:
 
 def _register_sheet(b: Builder, deal: Deal, m: ModelInputs) -> None:
     ws = b.sheet(S_AB, {"A": 4, "B": 40, "C": 24, "D": 18, "E": 8, "F": 11, "G": 11,
-                        "H": 34, "I": 20, "J": 12, "K": 9, "L": 13, "M": 13, "N": 60})
+                        "H": 42, "I": 20, "J": 12, "K": 9, "L": 13, "M": 13, "N": 60})
     b.put(ws, "A1", "Add-back register", font=TITLE)
     b.put(ws, "A2", "Set Accept? to 1 or 0 to keep or reject an add-back; every total and "
           "value downstream follows.", font=NOTE)
     b.header(ws, 4, ["#", "Item", "Comes out of", "Seller's label", "Years seen (of 3)",
                      "Continues after sale?", "Documented?", "Support", "Classification",
                      "Recommended", "Accept?", "Claimed", "Accepted", "Note"])
-    ws.row_dimensions[4].height = 32
+    ws.row_dimensions[4].height = 44
     toggle = DataValidation(type="list", formula1='"1,0"', allow_blank=False)
     yesno = DataValidation(type="list", formula1='"yes,no"', allow_blank=False)
     ws.add_data_validation(toggle)
