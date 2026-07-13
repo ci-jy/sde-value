@@ -1,0 +1,65 @@
+industry,soi_title,item,value
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",returns,85508
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",business_receipts,227822100
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",cogs,150656052
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",officer_comp,7692545
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",salaries_wages,19170149
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",repairs,845955
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",rent,3559772
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",taxes_licenses,5692636
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",interest,624314
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",amortization,799354
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",depreciation,4063244
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",advertising,1646421
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",pension,1009842
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",employee_benefits,4196578
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",other_deductions,18892002
+plumbing_hvac,"Plumbing, heating, and air-conditioning contractors",net_income,10930747
+other_admin_support,Other administrative and support services,returns,259216
+other_admin_support,Other administrative and support services,business_receipts,398482423
+other_admin_support,Other administrative and support services,cogs,136544883
+other_admin_support,Other administrative and support services,officer_comp,13241339
+other_admin_support,Other administrative and support services,salaries_wages,95335729
+other_admin_support,Other administrative and support services,repairs,3519155
+other_admin_support,Other administrative and support services,rent,8562814
+other_admin_support,Other administrative and support services,taxes_licenses,13369588
+other_admin_support,Other administrative and support services,interest,5616121
+other_admin_support,Other administrative and support services,amortization,5029616
+other_admin_support,Other administrative and support services,depreciation,9460262
+other_admin_support,Other administrative and support services,advertising,4618237
+other_admin_support,Other administrative and support services,pension,1553410
+other_admin_support,Other administrative and support services,employee_benefits,7973927
+other_admin_support,Other administrative and support services,other_deductions,75941916
+other_admin_support,Other administrative and support services,net_income,32116764
+personal_laundry,Personal and laundry services,returns,241333
+personal_laundry,Personal and laundry services,business_receipts,124069878
+personal_laundry,Personal and laundry services,cogs,30046614
+personal_laundry,Personal and laundry services,officer_comp,7386053
+personal_laundry,Personal and laundry services,salaries_wages,26735347
+personal_laundry,Personal and laundry services,repairs,1885671
+personal_laundry,Personal and laundry services,rent,10332994
+personal_laundry,Personal and laundry services,taxes_licenses,4448200
+personal_laundry,Personal and laundry services,interest,1595667
+personal_laundry,Personal and laundry services,amortization,893940
+personal_laundry,Personal and laundry services,depreciation,3814479
+personal_laundry,Personal and laundry services,advertising,2054525
+personal_laundry,Personal and laundry services,pension,561463
+personal_laundry,Personal and laundry services,employee_benefits,1343868
+personal_laundry,Personal and laundry services,other_deductions,28038421
+personal_laundry,Personal and laundry services,net_income,9895644
+specialty_trade_other,Other specialty trade contractors,returns,366576
+specialty_trade_other,Other specialty trade contractors,business_receipts,789294933
+specialty_trade_other,Other specialty trade contractors,cogs,515000498
+specialty_trade_other,Other specialty trade contractors,officer_comp,23788256
+specialty_trade_other,Other specialty trade contractors,salaries_wages,60661879
+specialty_trade_other,Other specialty trade contractors,repairs,4884539
+specialty_trade_other,Other specialty trade contractors,rent,18320301
+specialty_trade_other,Other specialty trade contractors,taxes_licenses,16868959
+specialty_trade_other,Other specialty trade contractors,interest,4814698
+specialty_trade_other,Other specialty trade contractors,amortization,1129703
+specialty_trade_other,Other specialty trade contractors,depreciation,21859817
+specialty_trade_other,Other specialty trade contractors,advertising,3549850
+specialty_trade_other,Other specialty trade contractors,pension,2729158
+specialty_trade_other,Other specialty trade contractors,employee_benefits,9296599
+specialty_trade_other,Other specialty trade contractors,other_deductions,72936962
+specialty_trade_other,Other specialty trade contractors,net_income,43606329

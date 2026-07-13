@@ -1,0 +1,285 @@
+scope,area_title,prim_state,naics,naics_title,occ_code,occ_title,tot_emp,a_mean,a_pct25,a_median,a_pct75
+national,U.S.,US,000000,Cross-industry,11-1021,General and Operations Managers,3584420,133120,67160,102950,164130
+national,U.S.,US,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,174660,51170,38600,47520,60330
+national,U.S.,US,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",124130,59380,46350,56170,70320
+national,U.S.,US,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,107060,50920,37800,47080,59330
+national,U.S.,US,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",600680,82930,61240,78300,99630
+state,Alabama,AL,000000,Cross-industry,11-1021,General and Operations Managers,32370,134790,74720,106330,162780
+state,Alabama,AL,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2560,45740,35920,43200,54540
+state,Alabama,AL,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1940,52810,45970,49540,59150
+state,Alabama,AL,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1280,41790,29150,38480,47950
+state,Alabama,AL,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",12790,76070,55990,73020,92580
+state,Alaska,AK,000000,Cross-industry,11-1021,General and Operations Managers,6010,136920,84960,120470,161840
+state,Alaska,AK,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,480,56460,46640,56640,62680
+state,Alaska,AK,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",180,71630,59630,68330,88550
+state,Alaska,AK,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,330,56130,35900,46440,63920
+state,Alaska,AK,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",2190,100280,79930,99030,116730
+state,Arizona,AZ,000000,Cross-industry,11-1021,General and Operations Managers,100340,120180,61470,90000,136800
+state,Arizona,AZ,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3340,51640,39520,47280,58960
+state,Arizona,AZ,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2640,54980,46980,49170,61220
+state,Arizona,AZ,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1690,48590,41080,46770,57440
+state,Arizona,AZ,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",12140,78060,57120,73760,94820
+state,Arkansas,AR,000000,Cross-industry,11-1021,General and Operations Managers,35710,87730,43190,64260,103990
+state,Arkansas,AR,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1350,39830,31100,36540,43840
+state,Arkansas,AR,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1120,50300,42500,48210,57940
+state,Arkansas,AR,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,830,43000,31510,37700,48460
+state,Arkansas,AR,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",7090,73100,50930,67590,86150
+state,California,CA,000000,Cross-industry,11-1021,General and Operations Managers,292300,163330,82350,125240,195260
+state,California,CA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,16130,60980,46570,58110,72510
+state,California,CA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",14090,64980,46250,61170,78490
+state,California,CA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,8940,54730,41940,51060,62580
+state,California,CA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",51520,96200,70190,89880,115940
+state,Colorado,CO,000000,Cross-industry,11-1021,General and Operations Managers,43140,161130,86660,130340,188290
+state,Colorado,CO,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3990,56280,45210,51540,62980
+state,Colorado,CO,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",4260,63310,50850,60570,74690
+state,Colorado,CO,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,3120,54780,41430,49480,64980
+state,Colorado,CO,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",13210,87620,65330,81450,102970
+state,Connecticut,CT,000000,Cross-industry,11-1021,General and Operations Managers,46780,160220,81480,130230,198500
+state,Connecticut,CT,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1980,55570,41390,50870,66920
+state,Connecticut,CT,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1990,72470,52990,65720,85540
+state,Connecticut,CT,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1550,57580,42000,52500,65640
+state,Connecticut,CT,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",6080,90950,68290,87850,107000
+state,Delaware,DE,000000,Cross-industry,11-1021,General and Operations Managers,4740,165580,98840,136900,195780
+state,Delaware,DE,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,770,51270,38130,49730,59760
+state,Delaware,DE,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",270,66660,59340,65210,77280
+state,Delaware,DE,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,370,47750,35610,45540,49990
+state,Delaware,DE,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",1900,86800,65110,83200,103220
+state,District of Columbia,DC,000000,Cross-industry,11-1021,General and Operations Managers,36060,178210,124920,167270,201840
+state,District of Columbia,DC,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1510,55140,42940,49180,63430
+state,District of Columbia,DC,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",**,66900,58760,58770,75670
+state,District of Columbia,DC,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,290,67040,46400,56490,71990
+state,District of Columbia,DC,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",970,95480,79440,93170,108430
+state,Florida,FL,000000,Cross-industry,11-1021,General and Operations Managers,249620,128610,64720,100750,159510
+state,Florida,FL,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,15450,48150,37280,44230,56930
+state,Florida,FL,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",11830,55300,39950,47860,63370
+state,Florida,FL,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,4920,49550,36070,46070,58140
+state,Florida,FL,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",40290,76140,57720,72280,90000
+state,Georgia,GA,000000,Cross-industry,11-1021,General and Operations Managers,111240,127450,62400,99800,160030
+state,Georgia,GA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5410,48370,37030,44450,57350
+state,Georgia,GA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",4390,49080,38800,46280,59150
+state,Georgia,GA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2880,47760,36200,44480,53090
+state,Georgia,GA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",23480,78700,59520,75120,92650
+state,Hawaii,HI,000000,Cross-industry,11-1021,General and Operations Managers,13010,124590,76040,105160,149810
+state,Hawaii,HI,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1250,60320,50060,59490,67550
+state,Hawaii,HI,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",720,66260,53900,62480,75700
+state,Hawaii,HI,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,730,59730,47120,55660,70400
+state,Hawaii,HI,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3110,90940,70700,86460,110280
+state,Idaho,ID,000000,Cross-industry,11-1021,General and Operations Managers,30600,91880,50760,76480,116570
+state,Idaho,ID,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1220,51700,41970,48090,61040
+state,Idaho,ID,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1260,54210,46470,49810,61740
+state,Idaho,ID,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,770,48870,34960,42060,58010
+state,Idaho,ID,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3630,77640,57520,74740,93510
+state,Illinois,IL,000000,Cross-industry,11-1021,General and Operations Managers,170790,132970,65020,101430,164840
+state,Illinois,IL,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,4830,54440,43240,50660,63140
+state,Illinois,IL,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",4100,60870,47730,54440,69850
+state,Illinois,IL,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2550,50890,36320,45820,56340
+state,Illinois,IL,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",18120,87080,65300,82680,104350
+state,Indiana,IN,000000,Cross-industry,11-1021,General and Operations Managers,46120,137010,75370,108410,167310
+state,Indiana,IN,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2460,49000,37250,46650,57580
+state,Indiana,IN,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2290,59930,46550,59380,68490
+state,Indiana,IN,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1910,56610,41000,50570,70510
+state,Indiana,IN,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",13160,82720,62280,79530,99990
+state,Iowa,IA,000000,Cross-industry,11-1021,General and Operations Managers,33560,100750,55680,80620,124150
+state,Iowa,IA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2220,47570,37770,45240,54480
+state,Iowa,IA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1230,54950,47400,51870,59090
+state,Iowa,IA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,820,41000,34720,36860,45080
+state,Iowa,IA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",5860,80110,62880,77980,95840
+state,Kansas,KS,000000,Cross-industry,11-1021,General and Operations Managers,25500,107240,62120,85600,128610
+state,Kansas,KS,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1620,52980,40090,50070,61760
+state,Kansas,KS,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1120,56470,44510,58440,65460
+state,Kansas,KS,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,380,44630,31440,42630,52110
+state,Kansas,KS,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",6750,79630,59060,76380,97830
+state,Kentucky,KY,000000,Cross-industry,11-1021,General and Operations Managers,58570,96350,49540,77150,120590
+state,Kentucky,KY,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2690,43640,35450,40660,50170
+state,Kentucky,KY,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1370,54640,45330,50360,60940
+state,Kentucky,KY,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,790,45560,32730,41300,52970
+state,Kentucky,KY,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9780,76300,55070,73070,95920
+state,Louisiana,LA,000000,Cross-industry,11-1021,General and Operations Managers,42020,126900,67370,102060,151560
+state,Louisiana,LA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2400,43000,32200,38200,48060
+state,Louisiana,LA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1020,54110,46670,53000,60130
+state,Louisiana,LA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1340,44140,31200,39520,49890
+state,Louisiana,LA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9960,79180,56310,71970,96250
+state,Maine,ME,000000,Cross-industry,11-1021,General and Operations Managers,15100,109540,62220,96740,132880
+state,Maine,ME,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,770,53470,44510,50240,59280
+state,Maine,ME,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",770,61870,50800,62220,71320
+state,Maine,ME,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,350,51810,43700,49130,57360
+state,Maine,ME,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",2750,79310,60230,76720,95410
+state,Maryland,MD,000000,Cross-industry,11-1021,General and Operations Managers,91810,129700,74380,105320,166770
+state,Maryland,MD,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,4550,49820,39300,47310,57910
+state,Maryland,MD,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",4010,53470,45050,47320,60360
+state,Maryland,MD,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,4360,55220,41620,49660,59740
+state,Maryland,MD,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9760,85810,65140,81200,103250
+state,Massachusetts,MA,000000,Cross-industry,11-1021,General and Operations Managers,105350,154280,79750,123850,192860
+state,Massachusetts,MA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3190,60550,48600,59760,70740
+state,Massachusetts,MA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2260,70150,58400,66010,78940
+state,Massachusetts,MA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2280,55120,45340,50240,62660
+state,Massachusetts,MA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",12790,90800,73240,86780,106740
+state,Michigan,MI,000000,Cross-industry,11-1021,General and Operations Managers,86000,124310,68030,99660,155070
+state,Michigan,MI,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3960,48580,38840,46590,53500
+state,Michigan,MI,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",3840,58290,46950,58030,65460
+state,Michigan,MI,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1780,45950,35350,43390,52820
+state,Michigan,MI,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",15970,80000,59610,77340,96910
+state,Minnesota,MN,000000,Cross-industry,11-1021,General and Operations Managers,73900,115300,62520,96130,140830
+state,Minnesota,MN,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2680,53760,41840,49570,62550
+state,Minnesota,MN,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1920,61910,51840,60210,71410
+state,Minnesota,MN,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2470,50350,41560,47840,60320
+state,Minnesota,MN,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9140,88040,69990,84410,102380
+state,Mississippi,MS,000000,Cross-industry,11-1021,General and Operations Managers,14530,112540,58360,88290,133270
+state,Mississippi,MS,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1560,41760,34010,38800,46820
+state,Mississippi,MS,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",840,51800,36700,47880,62030
+state,Mississippi,MS,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,820,39660,29150,35800,46800
+state,Mississippi,MS,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",6820,72560,50310,68440,90660
+state,Missouri,MO,000000,Cross-industry,11-1021,General and Operations Managers,105210,101060,51050,77410,122580
+state,Missouri,MO,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3090,45550,36220,42310,49700
+state,Missouri,MO,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1770,51800,43760,46870,59890
+state,Missouri,MO,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1450,49010,37690,46480,58110
+state,Missouri,MO,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",10170,79690,60200,75160,98710
+state,Montana,MT,000000,Cross-industry,11-1021,General and Operations Managers,11090,101530,62700,85240,124840
+state,Montana,MT,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,830,46530,36670,46170,55070
+state,Montana,MT,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",440,55430,43820,55680,63290
+state,Montana,MT,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,440,49080,43110,46900,52630
+state,Montana,MT,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",2670,79530,59620,75960,95630
+state,Nebraska,NE,000000,Cross-industry,11-1021,General and Operations Managers,23050,101660,58990,82570,126500
+state,Nebraska,NE,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,1220,50540,41650,48760,58460
+state,Nebraska,NE,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1040,55490,48000,52920,60320
+state,Nebraska,NE,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,620,45510,37790,45670,50410
+state,Nebraska,NE,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",4440,77030,60800,76030,91170
+state,Nevada,NV,000000,Cross-industry,11-1021,General and Operations Managers,42130,124730,60560,94990,143070
+state,Nevada,NV,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3550,51130,38350,50100,57840
+state,Nevada,NV,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1700,58860,48770,57520,71230
+state,Nevada,NV,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1370,46980,34190,45000,56700
+state,Nevada,NV,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",5320,82270,62580,76910,98440
+state,New Hampshire,NH,000000,Cross-industry,11-1021,General and Operations Managers,21180,142560,74950,107060,167710
+state,New Hampshire,NH,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,710,56520,45750,55370,63540
+state,New Hampshire,NH,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",820,68880,59160,62910,76820
+state,New Hampshire,NH,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,640,49340,39170,46540,59340
+state,New Hampshire,NH,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3000,86770,67770,82800,101660
+state,New Jersey,NJ,000000,Cross-industry,11-1021,General and Operations Managers,63940,182010,99990,149990,220820
+state,New Jersey,NJ,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5170,57900,46770,57210,68380
+state,New Jersey,NJ,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2640,73640,61390,76060,79450
+state,New Jersey,NJ,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,4340,53480,40350,47490,61990
+state,New Jersey,NJ,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",14130,89970,69000,88120,106980
+state,New Mexico,NM,000000,Cross-industry,11-1021,General and Operations Managers,16550,119280,68870,100200,135820
+state,New Mexico,NM,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,780,49450,37180,45640,56950
+state,New Mexico,NM,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",450,57030,45620,55730,65000
+state,New Mexico,NM,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,550,51170,40730,49610,59380
+state,New Mexico,NM,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3550,78890,56650,73680,95990
+state,New York,NY,000000,Cross-industry,11-1021,General and Operations Managers,210890,169610,81910,129990,208600
+state,New York,NY,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,11090,59940,46970,57210,69980
+state,New York,NY,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",6000,68610,53900,65380,80520
+state,New York,NY,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,8500,61000,47070,56320,69990
+state,New York,NY,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",27180,91790,66400,85000,113170
+state,North Carolina,NC,000000,Cross-industry,11-1021,General and Operations Managers,72250,125540,64450,99190,158460
+state,North Carolina,NC,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5650,45360,36820,44240,49740
+state,North Carolina,NC,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",4210,57120,46940,55880,64180
+state,North Carolina,NC,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2790,46490,36170,43620,53700
+state,North Carolina,NC,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",21050,76700,59410,73730,92020
+state,North Dakota,ND,000000,Cross-industry,11-1021,General and Operations Managers,11660,114420,66070,93290,130710
+state,North Dakota,ND,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,470,53970,42170,52450,61710
+state,North Dakota,ND,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",290,59840,47260,59900,70410
+state,North Dakota,ND,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,400,47370,38130,45590,54520
+state,North Dakota,ND,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",1820,92670,74070,85380,107510
+state,Ohio,OH,000000,Cross-industry,11-1021,General and Operations Managers,146860,117950,61220,94990,147340
+state,Ohio,OH,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5680,45650,36360,43360,50520
+state,Ohio,OH,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",3190,56840,47590,55450,62400
+state,Ohio,OH,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1970,45290,35360,42360,53040
+state,Ohio,OH,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",19620,78630,59960,77430,95330
+state,Oklahoma,OK,000000,Cross-industry,11-1021,General and Operations Managers,45900,104650,55690,80620,129000
+state,Oklahoma,OK,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2130,43420,34770,40860,48980
+state,Oklahoma,OK,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1120,54410,42940,50260,64010
+state,Oklahoma,OK,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1300,47020,33320,42000,58980
+state,Oklahoma,OK,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9410,77210,56670,72920,95040
+state,Oregon,OR,000000,Cross-industry,11-1021,General and Operations Managers,42140,127980,68070,98580,153870
+state,Oregon,OR,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2300,53260,44300,50250,59210
+state,Oregon,OR,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1390,64050,49140,62480,74550
+state,Oregon,OR,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,2410,53600,44730,52600,61000
+state,Oregon,OR,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",7190,87220,62910,81290,102970
+state,Pennsylvania,PA,000000,Cross-industry,11-1021,General and Operations Managers,168110,121150,67490,100400,153120
+state,Pennsylvania,PA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5870,49040,38600,46530,57710
+state,Pennsylvania,PA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",5450,55510,45300,51510,61780
+state,Pennsylvania,PA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,6050,48320,37980,46440,57050
+state,Pennsylvania,PA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",21750,80400,61010,77340,95600
+state,Rhode Island,RI,000000,Cross-industry,11-1021,General and Operations Managers,9060,139150,85570,122040,168040
+state,Rhode Island,RI,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,680,59280,47770,61860,65890
+state,Rhode Island,RI,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",600,64460,56290,59280,74130
+state,Rhode Island,RI,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,510,56840,51540,55860,59560
+state,Rhode Island,RI,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",1640,84830,64470,80100,100010
+state,South Carolina,SC,000000,Cross-industry,11-1021,General and Operations Managers,39170,118180,66730,99340,148690
+state,South Carolina,SC,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2680,49990,38370,47220,59420
+state,South Carolina,SC,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1840,56790,45680,56700,67180
+state,South Carolina,SC,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1610,46220,35580,41040,53700
+state,South Carolina,SC,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",9060,76230,59810,74360,91780
+state,South Dakota,SD,000000,Cross-industry,11-1021,General and Operations Managers,4440,150020,103100,133440,180490
+state,South Dakota,SD,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,530,45880,37360,45740,51230
+state,South Dakota,SD,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",260,53590,44930,53900,58900
+state,South Dakota,SD,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,350,50980,39920,47580,56130
+state,South Dakota,SD,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",1660,80970,64350,79320,96850
+state,Tennessee,TN,000000,Cross-industry,11-1021,General and Operations Managers,66610,129040,65880,102850,161270
+state,Tennessee,TN,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3250,48780,38400,45490,56520
+state,Tennessee,TN,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1580,54250,45060,49420,60780
+state,Tennessee,TN,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1990,51840,36970,46410,60140
+state,Tennessee,TN,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",13130,76640,59160,73910,93370
+state,Texas,TX,000000,Cross-industry,11-1021,General and Operations Managers,454720,129620,60960,100290,163950
+state,Texas,TX,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,14820,41890,31440,38070,48110
+state,Texas,TX,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",9190,55430,45230,50050,63470
+state,Texas,TX,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,11010,45130,32840,41340,53710
+state,Texas,TX,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",68540,78740,57940,75050,96580
+state,Utah,UT,000000,Cross-industry,11-1021,General and Operations Managers,45910,114710,60890,91230,140270
+state,Utah,UT,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2250,52730,44140,49770,62080
+state,Utah,UT,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2050,59440,49280,54600,65700
+state,Utah,UT,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,850,49760,34930,43660,60270
+state,Utah,UT,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",6410,80650,60320,77380,97120
+state,Vermont,VT,000000,Cross-industry,11-1021,General and Operations Managers,7260,110950,69960,93290,131370
+state,Vermont,VT,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,490,57960,47980,57570,62990
+state,Vermont,VT,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",160,72250,61010,70180,75460
+state,Vermont,VT,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,200,53850,47010,55970,57580
+state,Vermont,VT,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",740,84240,65510,80330,97430
+state,Virginia,VA,000000,Cross-industry,11-1021,General and Operations Managers,99710,140090,77790,121530,174120
+state,Virginia,VA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,5840,51770,38850,48060,61950
+state,Virginia,VA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",3330,56990,45280,55430,63780
+state,Virginia,VA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,3280,50400,38190,46430,59020
+state,Virginia,VA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",16970,84540,63690,80650,98990
+state,Washington,WA,000000,Cross-industry,11-1021,General and Operations Managers,53800,157840,95990,130240,181340
+state,Washington,WA,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3050,60180,47620,58850,69240
+state,Washington,WA,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",1760,72240,57370,69060,81000
+state,Washington,WA,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,1580,62650,48960,59830,71350
+state,Washington,WA,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",14640,96430,74900,92820,112960
+state,West Virginia,WV,000000,Cross-industry,11-1021,General and Operations Managers,16070,100160,57650,80490,123630
+state,West Virginia,WV,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,780,42020,29900,38190,46720
+state,West Virginia,WV,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",440,50610,39280,48960,56480
+state,West Virginia,WV,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,470,39040,32000,37760,44360
+state,West Virginia,WV,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3930,74700,49990,67850,97630
+state,Wisconsin,WI,000000,Cross-industry,11-1021,General and Operations Managers,35520,136820,78940,113170,166600
+state,Wisconsin,WI,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,2830,50670,39200,47040,59630
+state,Wisconsin,WI,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",2390,64890,50150,62500,78390
+state,Wisconsin,WI,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,4530,48970,39260,45740,55510
+state,Wisconsin,WI,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",11110,82790,63770,80670,97970
+state,Wyoming,WY,000000,Cross-industry,11-1021,General and Operations Managers,7030,112520,61910,94900,134800
+state,Wyoming,WY,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,520,50510,39450,48460,58190
+state,Wyoming,WY,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",320,59030,50320,55990,65990
+state,Wyoming,WY,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,170,44080,33280,40220,51920
+state,Wyoming,WY,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",2110,89330,65900,85080,108330
+state,Guam,GU,000000,Cross-industry,11-1021,General and Operations Managers,1690,80120,46820,71070,92180
+state,Guam,GU,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,160,30330,24190,26950,33380
+state,Guam,GU,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",**,35320,31220,32640,39300
+state,Guam,GU,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,40,30200,26430,28850,32050
+state,Guam,GU,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",330,51360,33270,47600,65920
+state,Puerto Rico,PR,000000,Cross-industry,11-1021,General and Operations Managers,6810,94390,53600,75830,113980
+state,Puerto Rico,PR,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,3000,26430,20810,21440,26990
+state,Puerto Rico,PR,000000,Cross-industry,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",630,33390,23220,28400,38400
+state,Puerto Rico,PR,000000,Cross-industry,39-1022,First-Line Supervisors of Personal Service Workers,320,29590,21710,28130,34750
+state,Puerto Rico,PR,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",3400,48770,30610,43680,59420
+state,Virgin Islands,VI,000000,Cross-industry,11-1021,General and Operations Managers,1180,92740,59820,77400,104990
+state,Virgin Islands,VI,000000,Cross-industry,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,90,*,*,*,*
+state,Virgin Islands,VI,000000,Cross-industry,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",230,63300,44990,58660,72440
+industry,U.S.,US,238200,Building Equipment Contractors,11-1021,General and Operations Managers,79630,123850,76570,104960,155330
+industry,U.S.,US,238200,Building Equipment Contractors,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,60,50690,44150,49300,49300
+industry,U.S.,US,238200,Building Equipment Contractors,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",390,65610,46110,55450,70720
+industry,U.S.,US,238200,Building Equipment Contractors,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",40030,85960,64340,79630,100440
+industry,U.S.,US,561700,Services to Buildings and Dwellings,11-1021,General and Operations Managers,71800,98570,59740,80250,113480
+industry,U.S.,US,561700,Services to Buildings and Dwellings,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,62970,49490,37770,46330,59230
+industry,U.S.,US,561700,Services to Buildings and Dwellings,37-1012,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",85200,57270,45860,52790,64060
+industry,U.S.,US,561700,Services to Buildings and Dwellings,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",5960,64040,48520,59040,76240
+industry,U.S.,US,812300,Drycleaning and Laundry Services,11-1021,General and Operations Managers,8640,86210,45240,66460,106640
+industry,U.S.,US,812300,Drycleaning and Laundry Services,37-1011,First-Line Supervisors of Housekeeping and Janitorial Workers,80,50040,43770,45660,49260
+industry,U.S.,US,812300,Drycleaning and Laundry Services,49-1011,"First-Line Supervisors of Mechanics, Installers, and Repairers",1020,82680,73110,80720,94900
