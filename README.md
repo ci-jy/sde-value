@@ -1,8 +1,8 @@
 # sde-value
 
-sde-value takes a small-business deal file (the seller's P&L plus the broker's list of add-backs) and builds an Excel workbook where every add-back is its own row with a 1/0 toggle, and the owner's job is priced at what it would cost to hire a manager. I wanted this because a broker's recast usually adds back the owner's whole salary and anything that can be called "one-time", applies a multiple, and never puts back the cost of someone to run the business. A $31,000 "one-time" warranty problem that shows up every year costs a buyer $124,000 at a multiple of four.
+sde-value takes a small-business deal file (the seller's P&L plus the broker's list of add-backs) and builds an Excel workbook. Each add-back gets its own row with a 1/0 toggle, and the owner's job is priced at what it would cost to hire a manager. I built it because a broker's recast usually adds back the owner's whole salary and anything that can be called "one-time", applies a multiple, and never puts back the cost of someone to run the business. A $31,000 "one-time" warranty problem that shows up every year costs a buyer $124,000 at a multiple of four.
 
-The value updates as you flip toggles. A separate Python engine recomputes every output, so the spreadsheet can be checked instead of trusted.
+The value updates as you flip toggles. A separate Python engine recomputes every output, so you can check the spreadsheet rather than just trust it.
 
 ## Running it
 
@@ -41,15 +41,13 @@ The deal file format is in [docs/deal-file.md](docs/deal-file.md), commands and 
 
 ## How it works
 
-Each add-back records which P&L line it comes out of, what the seller calls it, how many of the last three years it appeared in, whether the cost would continue under a new owner, and whether there are documents for it. The rule had to be short enough to fit in one Excel formula. Owner pay, depreciation and interest keep their labels. A "one-time" item seen in two or more years, or anything that carries on after the sale, becomes recurring-disguised and is rejected. Undocumented discretionary or one-time items are rejected too. You can override any row in the deal file, or just flip the toggle in Excel.
+Each add-back records which P&L line it comes out of, what the seller calls it, how many of the last three years it appeared in, whether the cost would continue under a new owner, and whether there are documents for it. The classification rule had to be short enough to fit in one Excel formula. Owner pay, depreciation and interest keep their labels. A "one-time" item seen in two or more years, or anything that carries on after the sale, becomes recurring-disguised and is rejected. Undocumented discretionary or one-time items are rejected too. You can override any row in the deal file, or just flip the toggle in Excel.
 
-The replacement manager's cost comes from BLS OES wages. OES doesn't publish wages by industry and state together, so I take the national wage for the role in the 4-digit NAICS industry and scale it by the state's cross-industry wage relative to the national one. Benefits go on top from BLS ECEC data for small private employers. Normalised SDE is net income plus accepted add-backs, normalised EBITDA subtracts the manager, and both sit next to IRS SOI ratios for the same industry as a sanity check.
+The manager's cost comes from BLS OES wages. OES doesn't publish wages by industry and state together, so I take the national wage for the role in the 4-digit NAICS industry and scale it by the state's cross-industry wage relative to the national one. Benefits go on top from BLS ECEC data for small private employers. Normalised SDE is net income plus accepted add-backs, normalised EBITDA subtracts the manager, and both sit next to IRS SOI ratios for the same industry as a sanity check.
 
-The workbook writes inputs as values and everything else as formulas, each with a defined name, and the engine computes the same names in Python. `check` recalculates the file in headless LibreOffice, reads the inputs back out, runs the engine on them and compares every output. Since it reads the workbook and not the deal file, it still works after you've flipped toggles. One test breaks a formula on purpose to make sure the checker notices.
+The workbook writes inputs as values and everything else as formulas, each with a defined name, and the engine computes the same names in Python. `check` recalculates the file in headless LibreOffice, reads the inputs back out, runs the engine on them and compares every output. It reads the workbook, not the deal file, so it still works after you've flipped toggles. One test breaks a formula on purpose to make sure the checker notices.
 
-## Sample deals
-
-The three deals in `deals/` are made up, but each P&L line is revenue times the IRS SOI ratio for that industry, and a test checks this.
+The three deals in `deals/` are made up, but each P&L line is revenue times the IRS SOI ratio for that industry (a test checks this).
 
 | Deal | Seller's SDE | Normalised EBITDA | Asking | Repriced | Cut |
 |---|---:|---:|---:|---:|---:|
