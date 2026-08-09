@@ -18,6 +18,13 @@ replacement:
   percentile: median
   fte: 1.0
   benefits_group: small_establishment
+# Defaults cover the DCF and sensitivity tabs; this deal has the seller
+# carrying part of the price, which SBA lenders often ask for.
+financing:
+  down_payment: 0.10
+  seller_note: 0.10
+  note_rate: 0.06
+  note_years: 5
 pnl:
   revenue: 2400000
   cogs: 1587100

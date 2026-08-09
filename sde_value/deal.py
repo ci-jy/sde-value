@@ -34,9 +34,37 @@ SELLER_LABELS = ("owner compensation", "discretionary", "one-time", "non-cash", 
 
 DEFAULT_MULTIPLES = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
 
+# Share of the rejected add-backs the buyer gives back to the seller, one
+# row per level on the sensitivity tab: 0 is the buyer's view, 1 the broker's.
+DEFAULT_ACCEPTANCE = [0.0, 0.25, 0.5, 0.75, 1.0]
+
 
 class DealError(ValueError):
     pass
+
+
+@dataclass
+class DCFTerms:
+    years: int = 5
+    growth: float = 0.03
+    capex_pct: float | None = None    # None: the seller's depreciation / revenue
+    nwc_pct: float = 0.05             # working capital tied up per dollar of new revenue
+    tax_rate: float = 0.25
+    discount_rate: float = 0.20    # a buyer's required return on a small private company
+    terminal_growth: float = 0.025
+
+
+@dataclass
+class LoanTerms:
+    # SBA 7(a) acquisition loan shape: 10% buyer equity, ten-year term,
+    # rate near the program cap of prime plus three points.
+    down_payment: float = 0.10
+    seller_note: float = 0.0
+    senior_rate: float = 0.105
+    senior_years: float = 10
+    note_rate: float = 0.06
+    note_years: float = 5
+    min_dscr: float = 1.25
 
 
 @dataclass
@@ -70,6 +98,9 @@ class Deal:
     benefits_group: str = "small_establishment"
     multiples: list[float] = field(default_factory=lambda: list(DEFAULT_MULTIPLES))
     fiscal_year_label: str = "Most recent fiscal year"
+    dcf: DCFTerms = field(default_factory=DCFTerms)
+    loan: LoanTerms = field(default_factory=LoanTerms)
+    acceptance: list[float] = field(default_factory=lambda: list(DEFAULT_ACCEPTANCE))
     notes: list[str] = field(default_factory=list)
     path: Path | None = None
 
@@ -83,6 +114,21 @@ def _num(value, where: str) -> float:
         return float(value)
     except (TypeError, ValueError):
         raise DealError(f"{where}: expected a number, got {value!r}") from None
+
+
+def _terms(cls, raw: dict | None, where: str):
+    """Fill a dataclass of numeric terms from an optional YAML section."""
+    raw = raw or {}
+    if not isinstance(raw, dict):
+        raise DealError(f"{where}: expected a mapping")
+    known = cls.__dataclass_fields__
+    unknown = set(raw) - set(known)
+    if unknown:
+        raise DealError(f"{where}: unknown fields {sorted(unknown)}")
+    values = {k: (None if v is None else _num(v, f"{where}.{k}")) for k, v in raw.items()}
+    if "years" in values:
+        values["years"] = int(values["years"])
+    return cls(**values)
 
 
 def parse_deal(raw: dict, path: Path | None = None) -> Deal:
@@ -120,6 +166,10 @@ def parse_deal(raw: dict, path: Path | None = None) -> Deal:
             benefits_group=str(repl.get("benefits_group", "small_establishment")),
             multiples=[_num(m, "multiples") for m in raw.get("multiples", DEFAULT_MULTIPLES)],
             fiscal_year_label=str(raw.get("fiscal_year_label", "Most recent fiscal year")),
+            dcf=_terms(DCFTerms, raw.get("dcf"), "dcf"),
+            loan=_terms(LoanTerms, raw.get("financing"), "financing"),
+            acceptance=[_num(a, "sensitivity.acceptance") for a in
+                        (raw.get("sensitivity") or {}).get("acceptance", DEFAULT_ACCEPTANCE)],
             notes=list(raw.get("notes", [])), path=path,
         )
     except KeyError as exc:
@@ -139,6 +189,17 @@ def validate(deal: Deal) -> None:
         raise DealError("replacement.fte must be between 0 and 2")
     if not deal.multiples:
         raise DealError("at least one multiple is needed")
+    d, loan = deal.dcf, deal.loan
+    if not 1 <= d.years <= 15:
+        raise DealError("dcf.years must be between 1 and 15")
+    if d.discount_rate <= d.terminal_growth:
+        raise DealError("dcf.discount_rate must be above dcf.terminal_growth")
+    if loan.down_payment + loan.seller_note >= 1 or min(loan.down_payment, loan.seller_note) < 0:
+        raise DealError("financing: down_payment + seller_note must leave a bank loan")
+    if loan.senior_years <= 0 or loan.note_years <= 0 or loan.min_dscr <= 0:
+        raise DealError("financing: loan terms and min_dscr must be positive")
+    if not deal.acceptance or any(not 0 <= a <= 1 for a in deal.acceptance):
+        raise DealError("sensitivity.acceptance must be shares between 0 and 1")
     # An add-back can only come out of an expense that is actually on the P&L.
     by_line: dict[str, float] = {}
     for ab in deal.addbacks:
