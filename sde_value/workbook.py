@@ -13,12 +13,13 @@ from pathlib import Path
 from openpyxl import Workbook
 from openpyxl.formatting.rule import FormulaRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.utils import get_column_letter
 from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from .data import PERCENTILES
 from .deal import PNL_LABELS, PNL_LINES, Deal
-from .engine import BASELINE_LINES, CLASSES, ModelInputs, inputs_from_deal
+from .engine import BASELINE_LINES, CLASSES, PRICE_CASES, ModelInputs, inputs_from_deal
 from .fetch import URLS
 
 MONEY = '"$"#,##0;[Red]-"$"#,##0'
@@ -39,6 +40,9 @@ S_IN = "Inputs"
 S_AB = "Add-back Register"
 S_NE = "Normalised Earnings"
 S_MV = "Multiple Valuation"
+S_DCF = "DCF"
+S_FIN = "Financing"
+S_SENS = "Sensitivity"
 S_IB = "Industry Baseline"
 S_SRC = "Sources"
 
@@ -95,6 +99,9 @@ def build_workbook(deal: Deal, out_path: str | Path) -> Path:
     _register_sheet(b, deal, m)
     _earnings_sheet(b)
     _valuation_sheet(b, m)
+    _dcf_sheet(b, m)
+    _financing_sheet(b, m)
+    _sensitivity_sheet(b, m)
     _baseline_sheet(b, src)
     _sources_sheet(b, deal, src)
     out_path = Path(out_path)
@@ -345,6 +352,277 @@ def _valuation_sheet(b: Builder, m: ModelInputs) -> None:
         f"A{top + 1}:D{last}",
         FormulaRule(formula=[f"$A{top + 1}={mult}"], font=Font(bold=True),
                     fill=PatternFill("solid", fgColor="E2EFDA")))
+
+
+def _assumptions(b: Builder, ws, row: int, rows: list) -> int:
+    """Write labelled input cells in A/B with a note in C; return the last row used."""
+    for name, label, value, fmt, note in rows:
+        b.put(ws, f"A{row}", label)
+        b.put(ws, f"B{row}", value, name=name, fmt=fmt, fill=INPUT_FILL)
+        b.put(ws, f"C{row}", note, font=NOTE)
+        row += 1
+    return row - 1
+
+
+def _dcf_sheet(b: Builder, m: ModelInputs) -> None:
+    d = m.dcf
+    years = d.years
+    last_col = get_column_letter(2 + years)
+    ws = b.sheet(S_DCF, {"A": 40, "B": 16, "C": 16, **{get_column_letter(3 + t): 14
+                                                         for t in range(years)}})
+    b.put(ws, "A1", "DCF cross-check", font=TITLE)
+    b.put(ws, "A2", "Free cash flow from normalised EBITDA, held at today's margin, "
+          "discounted at a buyer's required return. A second opinion on the multiple, not "
+          "a replacement for it.", font=NOTE)
+    end = _assumptions(b, ws, 4, [
+        ("i_dcf_growth", "Revenue growth per year", d.growth, PCT, ""),
+        ("i_dcf_capex_pct", "Maintenance capex, % of revenue", d.capex_pct, PCT,
+         "Defaults to the seller's depreciation / revenue"),
+        ("i_dcf_nwc_pct", "Working capital, % of new revenue", d.nwc_pct, PCT,
+         "Receivables and stock tied up as revenue grows"),
+        ("i_dcf_tax_rate", "Tax rate on EBITDA less capex", d.tax_rate, PCT,
+         "Owner-level rate for a pass-through entity"),
+        ("i_dcf_discount_rate", "Discount rate", d.discount_rate, PCT,
+         "Required return on a small private company, well above public-market rates"),
+        ("i_dcf_terminal_growth", "Growth after the last year", d.terminal_growth, PCT, ""),
+    ])
+    margin_row = end + 1
+    b.put(ws, f"A{margin_row}", "Normalised EBITDA margin (held flat)")
+    b.put(ws, f"B{margin_row}", f"={b.ref('o_normalised_ebitda_margin')}", fmt=PCT)
+    b.put(ws, f"C{margin_row}", "From Normalised Earnings", font=NOTE)
+    margin = f"$B${margin_row}"
+    g, capex, nwc, tax, r, tg = (b.ref(f"i_dcf_{k}") for k in (
+        "growth", "capex_pct", "nwc_pct", "tax_rate", "discount_rate", "terminal_growth"))
+
+    top = margin_row + 2
+    b.header(ws, top, ["Year"] + ["Today"] + [f"Year {t}" for t in range(1, years + 1)])
+    yr = top + 1
+    b.put(ws, f"A{yr}", "Years from today", font=NOTE)
+    labels = [("revenue", "Revenue"), ("ebitda", "Normalised EBITDA"),
+              ("capex", "Less maintenance capex"), ("nwc", "Less working capital build"),
+              ("tax", "Less tax"), ("fcf", "Free cash flow"), ("df", "Discount factor"),
+              ("pv", "Present value")]
+    rows = {k: yr + 1 + i for i, (k, _) in enumerate(labels)}
+    for k, label in labels:
+        b.put(ws, f"A{rows[k]}", label, font=BOLD if k == "fcf" else None)
+    b.put(ws, f"B{yr}", 0)
+    b.put(ws, f"B{rows['revenue']}", f"={b.ref('i_revenue')}", fmt=MONEY)
+    b.put(ws, f"B{rows['ebitda']}", f"={b.ref('o_normalised_ebitda')}", fmt=MONEY)
+    for t in range(1, years + 1):
+        c, p = get_column_letter(2 + t), get_column_letter(1 + t)
+        R = {k: f"{c}{v}" for k, v in rows.items()}
+        b.put(ws, f"{c}{yr}", t)
+        formulas = {
+            "revenue": (f"={p}{rows['revenue']}*(1+{g})", MONEY),
+            "ebitda": (f"={R['revenue']}*{margin}", MONEY),
+            "capex": (f"={R['revenue']}*{capex}", MONEY),
+            "nwc": (f"=({R['revenue']}-{p}{rows['revenue']})*{nwc}", MONEY),
+            "tax": (f"=MAX(0,{R['ebitda']}-{R['capex']})*{tax}", MONEY),
+            "fcf": (f"={R['ebitda']}-{R['capex']}-{R['nwc']}-{R['tax']}", MONEY),
+            "df": (f"=1/(1+{r})^{c}{yr}", "0.0000"),
+            "pv": (f"={R['fcf']}*{R['df']}", MONEY),
+        }
+        for k, (formula, fmt) in formulas.items():
+            b.put(ws, R[k], formula, name=f"o_dcf_y{t}_{k}", fmt=fmt,
+                  font=BOLD if k == "fcf" else None)
+        ws[R["fcf"]].border = TOP
+
+    row = rows["pv"] + 2
+    pv_row = rows["pv"]
+    summary = [
+        ("o_dcf_pv_sum", "Present value of the forecast years",
+         f"=SUM(C{pv_row}:{last_col}{pv_row})", MONEY),
+        ("o_dcf_terminal_value", "Terminal value at the end of the forecast",
+         f"={last_col}{rows['fcf']}*(1+{tg})/({r}-{tg})", MONEY),
+        ("o_dcf_pv_terminal", "Present value of the terminal value",
+         f"=B{{1}}*{last_col}{rows['df']}", MONEY),
+        ("o_dcf_value", "DCF value of the business", "=B{0}+B{2}", MONEY),
+        ("o_dcf_terminal_share", "Share of value from the terminal value",
+         "=IF(B{3}=0,0,B{2}/B{3})", PCT),
+        ("o_dcf_ebitda_multiple", "Implied multiple of normalised EBITDA",
+         f"=IF({b.ref('o_normalised_ebitda')}=0,0,B{{3}}/{b.ref('o_normalised_ebitda')})", MULT),
+        ("o_dcf_vs_asking_pct", "DCF value vs asking value",
+         f"=IF({b.ref('o_asking_value')}=0,0,B{{3}}/{b.ref('o_asking_value')}-1)", PCT),
+        ("o_dcf_vs_repriced_pct", "DCF value vs repriced value",
+         f"=IF({b.ref('o_repriced_value')}=0,0,B{{3}}/{b.ref('o_repriced_value')}-1)", PCT),
+    ]
+    refs = [row + i for i in range(len(summary))]
+    for i, (name, label, formula, fmt) in enumerate(summary):
+        bold = name == "o_dcf_value"
+        b.put(ws, f"A{row + i}", label, font=BOLD if bold else None)
+        b.put(ws, f"B{row + i}", formula.format(*refs), name=name, fmt=fmt,
+              font=BOLD if bold else None, fill=TOTAL_FILL if bold else None)
+    b.put(ws, f"C{refs[1]}", "Last year's cash flow grown once, over (discount rate - growth)",
+          font=NOTE)
+    ws.freeze_panes = "B1"
+
+
+def _financing_sheet(b: Builder, m: ModelInputs) -> None:
+    loan = m.loan
+    ws = b.sheet(S_FIN, {"A": 42, "B": 18, "C": 18, "D": 18, "E": 44})
+    b.put(ws, "A1", "Acquisition financing", font=TITLE)
+    b.put(ws, "A2", "Can the price be borrowed? Debt service coverage (DSCR) is the "
+          "buyer's cash flow over the year's loan payments; lenders want it at or above "
+          "the minimum.", font=NOTE)
+    end = _assumptions(b, ws, 4, [
+        ("i_fin_down_payment", "Buyer's equity, % of price", loan.down_payment, PCT,
+         "SBA 7(a) acquisitions need at least 10%"),
+        ("i_fin_seller_note", "Seller note, % of price", loan.seller_note, PCT,
+         "Part of the price the seller lends back"),
+        ("i_fin_senior_rate", "Bank loan rate", loan.senior_rate, PCT,
+         "Near the SBA 7(a) cap of prime plus three points"),
+        ("i_fin_senior_years", "Bank loan term (years)", loan.senior_years, "0",
+         "Ten years is the usual SBA term for a business purchase"),
+        ("i_fin_note_rate", "Seller note rate", loan.note_rate, PCT, ""),
+        ("i_fin_note_years", "Seller note term (years)", loan.note_years, "0", ""),
+        ("i_fin_min_dscr", "Minimum DSCR", loan.min_dscr, '0.00"x"',
+         "Typical lender floor for small-business loans"),
+    ])
+    rate = lambda k: b.ref(f"i_fin_{k}")  # noqa: E731
+    row = end + 2
+    b.put(ws, f"A{row}", "Cash available for debt service", font=BOLD)
+    b.put(ws, f"A{row + 1}", "Normalised EBITDA")
+    b.put(ws, f"B{row + 1}", f"={b.ref('o_normalised_ebitda')}", fmt=MONEY)
+    b.put(ws, f"A{row + 2}", "Less maintenance capex")
+    b.put(ws, f"B{row + 2}", f"={b.ref('i_revenue')}*{b.ref('i_dcf_capex_pct')}",
+          name="o_fin_capex", fmt=MONEY)
+    b.put(ws, f"C{row + 2}", "Capex rate from the DCF tab", font=NOTE)
+    b.put(ws, f"A{row + 3}", "Cash flow for debt service", font=BOLD)
+    b.put(ws, f"B{row + 3}", f"=B{row + 1}-B{row + 2}", name="o_fin_cfads", fmt=MONEY,
+          font=BOLD, fill=TOTAL_FILL).border = TOP
+    b.put(ws, f"C{row + 3}", "The buyer's view, whatever price is paid", font=NOTE)
+    cfads = b.ref("o_fin_cfads")
+    row += 5
+    b.put(ws, f"A{row}", "Annual payment per $1 borrowed (bank)")
+    b.put(ws, f"B{row}", f"=PMT({rate('senior_rate')}/12,{rate('senior_years')}*12,-1)*12",
+          name="o_fin_senior_factor", fmt="0.0000")
+    b.put(ws, f"C{row}", "Monthly payments, fully amortising", font=NOTE)
+    b.put(ws, f"A{row + 1}", "Annual payment per $1 borrowed (seller note)")
+    b.put(ws, f"B{row + 1}", f"=PMT({rate('note_rate')}/12,{rate('note_years')}*12,-1)*12",
+          name="o_fin_note_factor", fmt="0.0000")
+    sf, nf = b.ref("o_fin_senior_factor"), b.ref("o_fin_note_factor")
+
+    top = row + 3
+    b.header(ws, top, ["Price tested"] + list(PRICE_CASES.values()))
+    labels = [("price", "Purchase price"), ("equity", "Buyer's equity"),
+              ("note", "Seller note"), ("senior", "Bank loan"),
+              ("senior_payment", "Bank payments per year"),
+              ("note_payment", "Seller note payments per year"),
+              ("debt_service", "Total debt service"), ("dscr", "DSCR"),
+              ("financeable", "Meets the minimum DSCR?")]
+    rows = {k: top + 1 + i for i, (k, _) in enumerate(labels)}
+    for k, label in labels:
+        b.put(ws, f"A{rows[k]}", label, font=BOLD if k in ("dscr", "financeable") else None)
+    for col, case in zip("BCD", PRICE_CASES):
+        R = {k: f"{col}{v}" for k, v in rows.items()}
+        formulas = {
+            "price": (f"={b.ref(f'o_{case}_value')}", MONEY),
+            "equity": (f"={R['price']}*{rate('down_payment')}", MONEY),
+            "note": (f"={R['price']}*{rate('seller_note')}", MONEY),
+            "senior": (f"={R['price']}-{R['equity']}-{R['note']}", MONEY),
+            "senior_payment": (f"={R['senior']}*{sf}", MONEY),
+            "note_payment": (f"={R['note']}*{nf}", MONEY),
+            "debt_service": (f"={R['senior_payment']}+{R['note_payment']}", MONEY),
+            "dscr": (f"=IF({R['debt_service']}=0,0,{cfads}/{R['debt_service']})", '0.00"x"'),
+            "financeable": (f'=IF(AND({R["debt_service"]}>0,{R["dscr"]}>={rate("min_dscr")}),'
+                            f'"yes","no")', None),
+        }
+        for k, (formula, fmt) in formulas.items():
+            b.put(ws, R[k], formula, name=f"o_fin_{case}_{k}", fmt=fmt,
+                  font=BOLD if k in ("dscr", "financeable") else None)
+        ws[R["debt_service"]].border = TOP
+    ok_row = rows["financeable"]
+    ws.conditional_formatting.add(
+        f"B{ok_row}:D{ok_row}", FormulaRule(formula=[f'B{ok_row}="no"'],
+                                            fill=PatternFill("solid", fgColor="F8CBAD")))
+    ws.conditional_formatting.add(
+        f"B{ok_row}:D{ok_row}", FormulaRule(formula=[f'B{ok_row}="yes"'],
+                                            fill=PatternFill("solid", fgColor="E2EFDA")))
+
+    row = ok_row + 2
+    b.put(ws, f"A{row}", "Largest price the cash flow supports", font=BOLD)
+    steps = [
+        ("o_fin_service_factor", "Debt service per $1 of price",
+         f"=(1-{rate('down_payment')}-{rate('seller_note')})*{sf}+{rate('seller_note')}*{nf}",
+         "0.0000", "Bank share x bank payment + note share x note payment"),
+        ("o_fin_debt_capacity", "Debt service the cash flow carries",
+         f"=MAX(0,{cfads}/{rate('min_dscr')})", MONEY, "Cash flow / minimum DSCR"),
+        ("o_fin_max_price", "Largest financeable price", "=IF(B{0}=0,0,B{1}/B{0})", MONEY,
+         ""),
+        ("o_fin_max_seller_multiple", "As a multiple of the seller's SDE",
+         f"=IF({b.ref('o_seller_sde')}=0,0,B{{2}}/{b.ref('o_seller_sde')})", MULT,
+         "Compare with the broker's asking multiple"),
+        ("o_fin_max_vs_asking_pct", "Largest financeable price vs asking value",
+         f"=IF({b.ref('o_asking_value')}=0,0,B{{2}}/{b.ref('o_asking_value')}-1)", PCT, ""),
+    ]
+    refs = [row + 1 + i for i in range(len(steps))]
+    for i, (name, label, formula, fmt, note) in enumerate(steps):
+        r = refs[i]
+        bold = name == "o_fin_max_price"
+        b.put(ws, f"A{r}", label, font=BOLD if bold else None)
+        b.put(ws, f"B{r}", formula.format(*refs), name=name, fmt=fmt,
+              font=BOLD if bold else None, fill=TOTAL_FILL if bold else None)
+        b.put(ws, f"C{r}", note, font=NOTE)
+
+
+def _sensitivity_sheet(b: Builder, m: ModelInputs) -> None:
+    n_mult = len(m.multiples)
+    last_col = get_column_letter(2 + n_mult)
+    ws = b.sheet(S_SENS, {"A": 26, "B": 18, **{get_column_letter(3 + j): 13
+                                               for j in range(n_mult)}})
+    b.put(ws, "A1", "Sensitivity: add-backs given back x multiple", font=TITLE)
+    b.put(ws, "A2", "Rows give back a share of the add-backs the register rejects (0% is the "
+          "buyer's view, 100% the broker's recast); columns are the multiples on the "
+          "valuation tab.", font=NOTE)
+    rejected, ebitda = b.ref("o_rejected_total"), b.ref("o_normalised_ebitda")
+    max_price, min_dscr = b.ref("o_fin_max_price"), b.ref("i_fin_min_dscr")
+
+    def grid(top: int, title: str, cell_label: str, kind: str) -> tuple[int, int]:
+        b.put(ws, f"A{top - 1}", title, font=BOLD)
+        b.header(ws, top, ["Add-backs given back", "EBITDA used"] + [""] * n_mult)
+        for j in range(1, n_mult + 1):
+            c = ws.cell(row=top, column=2 + j, value=f"={b.ref(f'i_mult{j}')}")
+            c.number_format = MULT
+        first = top + 1
+        for k, share in enumerate(m.acceptance, 1):
+            r = top + k
+            if kind == "value":
+                b.put(ws, f"A{r}", share, name=f"i_sens_acc{k}", fmt="0%", fill=INPUT_FILL)
+                b.put(ws, f"B{r}", f"={ebitda}+A{r}*{rejected}", name=f"o_sens_{k}_ebitda",
+                      fmt=MONEY)
+            else:
+                b.put(ws, f"A{r}", f"={b.ref(f'i_sens_acc{k}')}", fmt="0%")
+                b.put(ws, f"B{r}", f"={b.ref(f'o_sens_{k}_ebitda')}", fmt=MONEY)
+            for j in range(1, n_mult + 1):
+                col = get_column_letter(2 + j)
+                if kind == "value":
+                    formula, fmt = f"=$B{r}*{col}${top}", MONEY
+                else:
+                    value = b.ref(f"o_sens_{k}_{j}_value")
+                    formula = (f"=IF({value}*{b.ref('o_fin_service_factor')}>0,"
+                               f"{b.ref('o_fin_cfads')}/({value}*{b.ref('o_fin_service_factor')}),0)")
+                    fmt = '0.00"x"'
+                b.put(ws, f"{col}{r}", formula, name=f"o_sens_{k}_{j}_{kind}", fmt=fmt)
+        b.put(ws, f"C{top + len(m.acceptance) + 1}", cell_label, font=NOTE)
+        return first, top + len(m.acceptance)
+
+    first, last = grid(5, "Price", "Red: more than the cash flow can finance at the "
+                       "minimum DSCR. Bold: the asking multiple.", "value")
+    rng = f"C{first}:{last_col}{last}"
+    ws.conditional_formatting.add(rng, FormulaRule(
+        formula=[f"C{first}>{max_price}"], fill=PatternFill("solid", fgColor="F8CBAD")))
+    ws.conditional_formatting.add(rng, FormulaRule(
+        formula=[f"C$5={b.ref('i_asking_multiple')}"], font=Font(bold=True)))
+
+    top = last + 4
+    first, last = grid(top, "DSCR if the business earns only the buyer's normalised EBITDA",
+                       "Red: below the minimum DSCR on the Financing tab.", "dscr")
+    rng = f"C{first}:{last_col}{last}"
+    ws.conditional_formatting.add(rng, FormulaRule(
+        formula=[f"C{first}<{min_dscr}"], fill=PatternFill("solid", fgColor="F8CBAD")))
+    ws.conditional_formatting.add(rng, FormulaRule(
+        formula=[f"C{first}>={min_dscr}"], fill=PatternFill("solid", fgColor="E2EFDA")))
+    ws.freeze_panes = "C1"
 
 
 def _baseline_sheet(b: Builder, src: dict) -> None:

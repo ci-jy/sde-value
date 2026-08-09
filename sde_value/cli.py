@@ -32,20 +32,30 @@ def cmd_build(args) -> int:
     print(f"  Asking value        {_money(o['asking_value']):>12}   at {deal.asking_multiple:.1f}x")
     print(f"  Repriced value      {_money(o['repriced_value']):>12}   "
           f"({o['value_cut_pct']:.1%} below asking)")
+    print(f"  DCF value           {_money(o['dcf_value']):>12}   "
+          f"({o['dcf_ebitda_multiple']:.1f}x normalised EBITDA)")
+    print(f"  Largest financeable {_money(o['fin_max_price']):>12}   "
+          f"(DSCR at asking {o['fin_asking_dscr']:.2f}x, needs {deal.loan.min_dscr:.2f}x)")
     return 0
 
 
 def cmd_check(args) -> int:
-    from .check import check_workbook
+    from .check import RecalcError, check_workbook
 
-    result = check_workbook(args.workbook, keep_dir=args.keep)
+    tabs = [t.strip() for t in args.tabs.split(",") if t.strip()] if args.tabs else None
+    try:
+        result = check_workbook(args.workbook, keep_dir=args.keep, tabs=tabs)
+    except RecalcError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     for m in result.mismatches:
         print(f"MISMATCH {m.name}: workbook={m.workbook!r} engine={m.engine!r}")
     for name in result.missing:
         print(f"MISSING  {name}")
     status = "OK" if result.ok else "FAILED"
-    print(f"{status}: {result.compared} output cells compared after LibreOffice recalculation, "
-          f"{len(result.mismatches)} mismatches, {len(result.missing)} missing")
+    where = f" on {', '.join(tabs)}" if tabs else ""
+    print(f"{status}: {result.compared} output cells{where} compared after LibreOffice "
+          f"recalculation, {len(result.mismatches)} mismatches, {len(result.missing)} missing")
     return 0 if result.ok else 1
 
 
@@ -85,6 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     c = sub.add_parser("check", help="recalculate in LibreOffice and compare with the engine")
     c.add_argument("workbook")
     c.add_argument("--keep", help="keep the recalculated copy in this directory")
+    c.add_argument("--tabs", help="only compare cells on these tabs, e.g. DCF,Financing,Sensitivity")
     c.set_defaults(func=cmd_check)
     s = sub.add_parser("summary", help="print seller vs repriced value for several deals")
     s.add_argument("deals", nargs="+")

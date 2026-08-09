@@ -18,12 +18,13 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 
-from .deal import PNL_LINES
+from .deal import PNL_LINES, DCFTerms, LoanTerms
 from .engine import AddBackInput, ModelInputs, evaluate
 
 CENT = 0.005
 RATIO_TOL = 1e-9
-RATIO_SUFFIXES = ("_margin", "_pct", "_gap", "_factor", "_deal", "_recommend")
+RATIO_SUFFIXES = ("_margin", "_pct", "_gap", "_factor", "_deal", "_recommend", "_df",
+                  "_share", "_multiple", "_dscr")
 
 
 class RecalcError(RuntimeError):
@@ -60,17 +61,23 @@ def recalculate(path: str | Path, out_dir: str | Path | None = None) -> Path:
     return result
 
 
-def named_values(path: str | Path) -> dict[str, object]:
-    """Value of every single-cell defined name in a workbook (cached results)."""
+def named_cells(path: str | Path) -> tuple[dict[str, object], dict[str, str]]:
+    """Value and sheet of every single-cell defined name in a workbook (cached results)."""
     wb = load_workbook(path, data_only=True)
-    values = {}
+    values, sheets = {}, {}
     for name, dn in wb.defined_names.items():
         dests = list(dn.destinations)
         if len(dests) != 1:
             continue
         sheet, ref = dests[0]
         values[name] = wb[sheet][ref.replace("$", "")].value
-    return values
+        sheets[name] = sheet
+    return values, sheets
+
+
+def named_values(path: str | Path) -> dict[str, object]:
+    """Value of every single-cell defined name in a workbook (cached results)."""
+    return named_cells(path)[0]
 
 
 def _yes(value) -> bool:
@@ -90,13 +97,19 @@ def inputs_from_values(v: dict[str, object]) -> ModelInputs:
         for i in n_ab
     ]
     soi = {k[len("i_soi_"):]: num(k) for k in v if k.startswith("i_soi_")}
+    # The DCF's column count is layout, not an input: count the year columns.
+    years = len([k for k in v if re.fullmatch(r"o_dcf_y\d+_fcf", k)])
+    n_acc = sorted(int(m.group(1)) for k in v if (m := re.fullmatch(r"i_sens_acc(\d+)", k)))
+    dcf = DCFTerms(years=years, **{f: num(f"i_dcf_{f}") for f in (
+        "growth", "capex_pct", "nwc_pct", "tax_rate", "discount_rate", "terminal_growth")})
+    loan = LoanTerms(**{f: num(f"i_fin_{f}") for f in LoanTerms.__dataclass_fields__})
     return ModelInputs(
         revenue=num("i_revenue"), expenses={line: num(f"i_{line}") for line in PNL_LINES},
         addbacks=addbacks, industry_wage=num("i_industry_wage"),
         national_wage=num("i_national_wage"), state_wage=num("i_state_wage"),
         fte=num("i_fte"), benefits_load=num("i_benefits_load"),
         asking_multiple=num("i_asking_multiple"), multiples=[num(f"i_mult{j}") for j in n_mult],
-        soi=soi,
+        soi=soi, dcf=dcf, loan=loan, acceptance=[num(f"i_sens_acc{k}") for k in n_acc],
     )
 
 
@@ -120,8 +133,23 @@ class CheckResult:
         return not self.mismatches and not self.missing
 
 
-def compare(values: dict[str, object]) -> CheckResult:
+def compare(values: dict[str, object], sheets: dict[str, str] | None = None,
+            tabs: list[str] | None = None) -> CheckResult:
+    """Compare output cells with the engine; ``tabs`` limits it to cells on those sheets.
+
+    With ``tabs``, engine keys are matched to sheets through ``sheets`` (name ->
+    sheet title), so an engine value with no cell anywhere still counts as missing.
+    """
     expected = evaluate(inputs_from_values(values))
+    if tabs is not None:
+        sheets = sheets or {}
+        unknown = set(tabs) - set(sheets.values())
+        if unknown:
+            raise RecalcError(f"no such tab(s): {', '.join(sorted(unknown))}")
+        on_tabs = lambda name: sheets.get(name) in tabs  # noqa: E731
+        expected = {k: v for k, v in expected.items()
+                    if f"o_{k}" not in sheets or on_tabs(f"o_{k}")}
+        values = {k: v for k, v in values.items() if not k.startswith("o_") or on_tabs(k)}
     mismatches, missing = [], []
     compared = 0
     for key, want in expected.items():
@@ -147,7 +175,8 @@ def compare(values: dict[str, object]) -> CheckResult:
     return CheckResult(compared, mismatches, missing, expected, values)
 
 
-def check_workbook(path: str | Path, keep_dir: str | Path | None = None) -> CheckResult:
+def check_workbook(path: str | Path, keep_dir: str | Path | None = None,
+                   tabs: list[str] | None = None) -> CheckResult:
     with tempfile.TemporaryDirectory(prefix="sde-check-") as tmp:
         recalced = recalculate(path, keep_dir or tmp)
-        return compare(named_values(recalced))
+        return compare(*named_cells(recalced), tabs=tabs)
