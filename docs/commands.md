@@ -8,15 +8,15 @@ All commands run as `python3 -m sde_value <command>`.
 python3 -m sde_value build --deal deals/hvac_service.yaml [--out out/hvac_service.xlsx]
 ```
 
-Writes the workbook and prints a short summary. `--out` defaults to `out/<deal file name>.xlsx`.
+Writes the workbook and prints a short summary, including the DCF value and the largest price the cash flow can finance. `--out` defaults to `out/<deal file name>.xlsx`.
 
 ## check
 
 ```bash
-python3 -m sde_value check out/hvac_service.xlsx [--keep DIR]
+python3 -m sde_value check out/hvac_service.xlsx [--keep DIR] [--tabs DCF,Financing,Sensitivity]
 ```
 
-Recalculates the workbook in headless LibreOffice (with a private profile, so it doesn't touch a running instance), runs the Python engine on the recalculated inputs and compares every named output: strings exactly, money to half a cent, ratios to 1e-9. Prints each mismatch or missing cell and exits 1 if there are any. `--keep` saves the recalculated copy in `DIR`.
+Recalculates the workbook in headless LibreOffice (with a private profile, so it doesn't touch a running instance), runs the Python engine on the recalculated inputs and compares every named output: strings exactly, money to half a cent, ratios to 1e-9. Prints each mismatch or missing cell and exits 1 if there are any. `--keep` saves the recalculated copy in `DIR`. `--tabs` only compares output cells that sit on the named tabs (the engine still reads every input); an unknown tab name exits with 2.
 
 ## summary
 
@@ -44,4 +44,4 @@ Regenerates the PNGs in `docs/`.
 
 ## Workbook names
 
-Inputs are named `i_*` (for example `i_revenue`) and outputs `o_*` (for example `o_normalised_ebitda`, `o_ab7_class`). The engine uses the same keys, which is how `check` pairs them up.
+Inputs are named `i_*` (for example `i_revenue`, `i_fin_senior_rate`) and outputs `o_*` (for example `o_normalised_ebitda`, `o_ab7_class`, `o_dcf_y3_fcf`, `o_fin_asking_dscr`, `o_sens_2_5_value`). Sensitivity cells are `o_sens_<row>_<column>_value` and `_dscr`. The engine uses the same keys, which is how `check` pairs them up.

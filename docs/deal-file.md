@@ -67,3 +67,30 @@ How the label becomes a classification and recommendation:
 - Anything with `continues: true`, or a `one-time` item with `years_seen` of 2 or more, becomes `recurring-disguised` and is rejected.
 - A `discretionary` or `one-time` item with `documented: false` is rejected.
 - Everything else is accepted.
+
+## dcf, financing and sensitivity
+
+All three sections are optional; these are the defaults.
+
+```yaml
+dcf:
+  years: 5                  # 1 to 15 year columns on the DCF tab
+  growth: 0.03              # revenue growth per year
+  capex_pct: null           # maintenance capex / revenue; null uses the seller's depreciation / revenue
+  nwc_pct: 0.05             # working capital per dollar of new revenue
+  tax_rate: 0.25            # applied to EBITDA less capex, never below zero
+  discount_rate: 0.20       # must be above terminal_growth
+  terminal_growth: 0.025
+financing:
+  down_payment: 0.10        # buyer's equity, share of price
+  seller_note: 0.0          # share of price the seller lends back
+  senior_rate: 0.105        # bank loan, monthly payments
+  senior_years: 10
+  note_rate: 0.06
+  note_years: 5
+  min_dscr: 1.25            # coverage a lender wants
+sensitivity:
+  acceptance: [0, 0.25, 0.5, 0.75, 1.0]   # shares of the rejected add-backs given back, one row each
+```
+
+`down_payment + seller_note` has to leave something for the bank to lend. Unknown keys in these sections are an error, so a typo doesn't silently fall back to a default. The sensitivity columns are the deal's `multiples`.

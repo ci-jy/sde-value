@@ -134,9 +134,17 @@ def test_hvac_results(hvac):
     assert max(o[f"sens_{k}_5_dscr"] for k in range(1, 6)) < 1.25
 
 
+# README table: DSCR at the asking price and the largest financeable price as a
+# multiple of the seller's SDE
+EXPECTED_FINANCING = {"hvac_service": (0.48, 1.53), "landscaping": (0.38, 1.06),
+                      "laundromat": (0.56, 2.03)}
+
+
 def test_no_sample_deal_can_borrow_its_asking_price(deal_path):
     o = value_deal(load_deal(deal_path))
-    assert o["fin_asking_dscr"] < 1
+    dscr, max_multiple = EXPECTED_FINANCING[deal_path.stem]
+    assert o["fin_asking_dscr"] == pytest.approx(dscr, abs=0.005)
+    assert o["fin_max_seller_multiple"] == pytest.approx(max_multiple, abs=0.005)
     assert o["fin_max_price"] < o["repriced_value"]
 
 
