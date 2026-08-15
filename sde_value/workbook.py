@@ -607,12 +607,10 @@ def _sensitivity_sheet(b: Builder, m: ModelInputs) -> None:
         return first, top + len(m.acceptance)
 
     first, last = grid(5, "Price", "Red: more than the cash flow can finance at the "
-                       "minimum DSCR. Bold: the asking multiple.", "value")
+                       "minimum DSCR.", "value")
     rng = f"C{first}:{last_col}{last}"
     ws.conditional_formatting.add(rng, FormulaRule(
         formula=[f"C{first}>{max_price}"], fill=PatternFill("solid", fgColor="F8CBAD")))
-    ws.conditional_formatting.add(rng, FormulaRule(
-        formula=[f"C$5={b.ref('i_asking_multiple')}"], font=Font(bold=True)))
 
     top = last + 4
     first, last = grid(top, "DSCR if the business earns only the buyer's normalised EBITDA",

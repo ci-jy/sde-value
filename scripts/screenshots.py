@@ -13,7 +13,8 @@ from openpyxl import load_workbook
 from sde_value.check import soffice_binary
 
 PAGES = {"Add-back Register": "addback-register.png", "Normalised Earnings": "normalised-earnings.png",
-         "Multiple Valuation": "multiple-valuation.png"}
+         "Multiple Valuation": "multiple-valuation.png", "DCF": "dcf.png",
+         "Financing": "financing.png", "Sensitivity": "sensitivity.png"}
 
 
 def main(src: str, out_dir: str) -> None:
