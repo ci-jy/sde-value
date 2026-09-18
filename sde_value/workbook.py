@@ -11,6 +11,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from openpyxl import Workbook
+from openpyxl.chart import BarChart, Reference
 from openpyxl.formatting.rule import FormulaRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
@@ -19,7 +20,8 @@ from openpyxl.worksheet.datavalidation import DataValidation
 
 from .data import PERCENTILES
 from .deal import PNL_LABELS, PNL_LINES, Deal
-from .engine import BASELINE_LINES, CLASSES, PRICE_CASES, ModelInputs, inputs_from_deal
+from .engine import (BASELINE_LINES, CLASSES, PRICE_CASES, VERDICTS, ModelInputs,
+                     inputs_from_deal)
 from .fetch import URLS
 
 MONEY = '"$"#,##0;[Red]-"$"#,##0'
@@ -43,6 +45,7 @@ S_MV = "Multiple Valuation"
 S_DCF = "DCF"
 S_FIN = "Financing"
 S_SENS = "Sensitivity"
+S_DASH = "Dashboard"
 S_IB = "Industry Baseline"
 S_SRC = "Sources"
 
@@ -102,8 +105,11 @@ def build_workbook(deal: Deal, out_path: str | Path) -> Path:
     _dcf_sheet(b, m)
     _financing_sheet(b, m)
     _sensitivity_sheet(b, m)
+    _dashboard_sheet(b, deal)
     _baseline_sheet(b, src)
     _sources_sheet(b, deal, src)
+    # Open on the dashboard; the working tabs keep their order before it.
+    b.wb.active = b.wb.sheetnames.index(S_DASH)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     b.wb.save(out_path)
@@ -621,6 +627,99 @@ def _sensitivity_sheet(b: Builder, m: ModelInputs) -> None:
     ws.conditional_formatting.add(rng, FormulaRule(
         formula=[f"C{first}>={min_dscr}"], fill=PatternFill("solid", fgColor="E2EFDA")))
     ws.freeze_panes = "C1"
+
+
+def _dashboard_sheet(b: Builder, deal: Deal) -> None:
+    """One printable page: the prices side by side, the earnings bridge and the verdict."""
+    ws = b.sheet(S_DASH, {"A": 40, "B": 18, "C": 14, "D": 3})
+    b.put(ws, "A1", deal.name, font=TITLE)
+    b.put(ws, "A2", deal.description, font=NOTE)
+    ref = b.ref
+    asking = ref("o_asking_value")
+
+    b.header(ws, 4, ["Price", "Value", "vs asking"])
+    prices = [("Seller's asking value", "o_asking_value"),
+              ("Repriced value", "o_repriced_value"),
+              ("DCF value", "o_dcf_value"),
+              ("Largest financeable price", "o_fin_max_price")]
+    for r, (label, name) in enumerate(prices, 5):
+        b.put(ws, f"A{r}", label)
+        b.put(ws, f"B{r}", f"={ref(name)}", fmt=MONEY)
+        b.put(ws, f"C{r}", f"=IF({asking}=0,0,B{r}/{asking}-1)", fmt=PCT)
+    r = 5 + len(prices)
+    b.put(ws, f"A{r}", "Supported value", font=BOLD)
+    b.put(ws, f"B{r}", f"=MAX(0,MIN({ref('o_repriced_value')},{ref('o_fin_max_price')}))",
+          name="o_supported_value", fmt=MONEY, font=BOLD, fill=TOTAL_FILL).border = TOP
+    b.put(ws, f"C{r}", f"=IF({asking}=0,0,B{r}/{asking}-1)", name="o_supported_vs_asking_pct",
+          fmt=PCT, font=BOLD, fill=TOTAL_FILL).border = TOP
+    ws[f"A{r}"].border = TOP
+    price_rows = (5, r)
+    b.put(ws, f"A{r + 1}", "Supported value comes from the")
+    b.put(ws, f"B{r + 1}",
+          f'=IF({ref("o_repriced_value")}<={ref("o_fin_max_price")},"repriced value",'
+          f'"largest financeable price")', name="o_supported_basis")
+    b.put(ws, f"A{r + 2}", "The repriced value, unless the cash flow can't finance that much.",
+          font=NOTE)
+
+    start, end = b.register_rows
+    reg = f"'{S_AB}'!"
+    row = r + 4
+    b.header(ws, row, ["Earnings", "", ""])
+    earnings = [
+        ("Seller's SDE", f"={ref('o_seller_sde')}"),
+        ("Add-backs claimed", f"={ref('o_claimed_total')}"),
+        ("Add-backs rejected", f"={ref('o_rejected_total')}"),
+        ("Normalised SDE", f"={ref('o_normalised_sde')}"),
+        ("Owner replacement at market pay", f"=-{ref('o_replacement_cost')}"),
+        ("Normalised EBITDA", f"={ref('o_normalised_ebitda')}"),
+    ]
+    for i, (label, formula) in enumerate(earnings, row + 1):
+        bold = label == "Normalised EBITDA"
+        b.put(ws, f"A{i}", label, font=BOLD if bold else None)
+        b.put(ws, f"B{i}", formula, fmt=MONEY, font=BOLD if bold else None)
+    rej = row + 3
+    b.put(ws, f"C{rej}", f'=COUNTIFS({reg}$K${start}:$K${end},"<>1",'
+          f'{reg}$L${start}:$L${end},">0")', name="o_rejected_count", fmt='0" items"')
+
+    row += len(earnings) + 2
+    b.header(ws, row, ["Financing", "", ""])
+    rows = [("DSCR at the asking price", f"={ref('o_fin_asking_dscr')}", '0.00"x"'),
+            ("DSCR at the repriced value", f"={ref('o_fin_repriced_dscr')}", '0.00"x"'),
+            ("Lender's minimum", f"={ref('i_fin_min_dscr')}", '0.00"x"')]
+    for i, (label, formula, fmt) in enumerate(rows, row + 1):
+        b.put(ws, f"A{i}", label)
+        b.put(ws, f"B{i}", formula, fmt=fmt)
+    v = row + len(rows) + 1
+    b.put(ws, f"A{v}", "Verdict", font=BOLD).alignment = Alignment(vertical="top")
+    b.put(ws, f"B{v}",
+          f'=IF({ref("o_fin_asking_financeable")}="yes","{VERDICTS["asking"]}",'
+          f'IF({ref("o_fin_repriced_financeable")}="yes","{VERDICTS["repriced"]}",'
+          f'"{VERDICTS["neither"]}"))', name="o_financing_verdict", font=BOLD
+          ).alignment = Alignment(wrap_text=True, vertical="top")
+    ws.merge_cells(f"B{v}:C{v}")
+    ws.row_dimensions[v].height = 30
+    ws.conditional_formatting.add(f"B{v}", FormulaRule(
+        formula=[f'B{v}="{VERDICTS["neither"]}"'], fill=PatternFill("solid", fgColor="F8CBAD")))
+    ws.conditional_formatting.add(f"B{v}", FormulaRule(
+        formula=[f'B{v}="{VERDICTS["asking"]}"'], fill=PatternFill("solid", fgColor="E2EFDA")))
+
+    chart = BarChart()
+    chart.type = "bar"
+    chart.title = "Value by method"
+    chart.legend = None
+    chart.y_axis.numFmt = '"$"#,##0'
+    chart.y_axis.majorGridlines = None
+    chart.x_axis.scaling.orientation = "maxMin"   # asking value on top, as in the table
+    first, last = price_rows
+    chart.add_data(Reference(ws, min_col=2, min_row=first, max_row=last))
+    chart.set_categories(Reference(ws, min_col=1, min_row=first, max_row=last))
+    chart.height, chart.width = 8, 16
+    ws.add_chart(chart, "E4")
+
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.fitToWidth = ws.page_setup.fitToHeight = 1
+    ws.sheet_properties.pageSetUpPr.fitToPage = True
+    ws.print_area = f"A1:N{v + 1}"
 
 
 def _baseline_sheet(b: Builder, src: dict) -> None:

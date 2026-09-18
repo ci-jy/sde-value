@@ -36,6 +36,8 @@ def cmd_build(args) -> int:
           f"({o['dcf_ebitda_multiple']:.1f}x normalised EBITDA)")
     print(f"  Largest financeable {_money(o['fin_max_price']):>12}   "
           f"(DSCR at asking {o['fin_asking_dscr']:.2f}x, needs {deal.loan.min_dscr:.2f}x)")
+    print(f"  Supported value     {_money(o['supported_value']):>12}   "
+          f"(capped at the {o['supported_basis']}; {o['financing_verdict']})")
     return 0
 
 

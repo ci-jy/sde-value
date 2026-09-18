@@ -177,6 +177,7 @@ def evaluate(m: ModelInputs) -> dict[str, float | str]:
     _dcf(m, out)
     _financing(m, out)
     _sensitivity(m, out)
+    _verdict(m, out)
     return out
 
 
@@ -260,6 +261,36 @@ def _sensitivity(m: ModelInputs, out: dict) -> None:
             service = value * out["fin_service_factor"]
             out[f"sens_{k}_{j}_value"] = value
             out[f"sens_{k}_{j}_dscr"] = out["fin_cfads"] / service if service > 0 else 0.0
+
+
+# Wording of the financing verdict, shared by the dashboard formula and the memo.
+VERDICTS = {
+    "asking": "the asking price can be financed",
+    "repriced": "only the repriced value can be financed",
+    "neither": "neither price can be financed at these terms",
+}
+
+
+def _verdict(m: ModelInputs, out: dict) -> None:
+    """The dashboard's bottom line: what the earnings support and the bank will lend on.
+
+    The supported value is the repriced value, capped at the largest price the
+    buyer's cash flow can finance: a buyer cannot pay more than either allows.
+    """
+    repriced, max_price = out["repriced_value"], out["fin_max_price"]
+    supported = max(0.0, min(repriced, max_price))
+    out["rejected_count"] = float(sum(1 for a in m.addbacks if not a.accept))
+    out["supported_value"] = supported
+    out["supported_basis"] = ("repriced value" if repriced <= max_price
+                              else "largest financeable price")
+    out["supported_vs_asking_pct"] = _safe_div(supported - out["asking_value"],
+                                               out["asking_value"])
+    if out["fin_asking_financeable"] == "yes":
+        out["financing_verdict"] = VERDICTS["asking"]
+    elif out["fin_repriced_financeable"] == "yes":
+        out["financing_verdict"] = VERDICTS["repriced"]
+    else:
+        out["financing_verdict"] = VERDICTS["neither"]
 
 
 def value_deal(deal: Deal) -> dict[str, float | str]:
