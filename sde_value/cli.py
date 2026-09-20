@@ -1,4 +1,5 @@
-"""Command line: build a workbook from a deal file, check it, or refresh data."""
+"""Command line: build a workbook and memo from a deal file, value a folder of
+deals, check a workbook against the engine, or refresh data."""
 
 from __future__ import annotations
 
@@ -79,6 +80,55 @@ def cmd_summary(args) -> int:
     return 0
 
 
+def cmd_memo(args) -> int:
+    from .memo import write_memo
+
+    deal = load_deal(args.deal)
+    out = Path(args.out) if args.out else Path("out") / f"{deal.slug}-memo.docx"
+    write_memo(deal, out)
+    print(f"Wrote {out}")
+    return 0
+
+
+def cmd_batch(args) -> int:
+    from .batch import run_batch
+
+    batch = run_batch(args.deals_dir, args.out, check=args.check)
+    print(f"{'Deal':34} {'Asking':>12} {'Repriced':>12} {'Supported':>12} {'vs ask':>7}  "
+          f"Financing")
+    for res in batch.results:
+        o = res.outputs
+        print(f"{res.deal.name[:34]:34} {_money(o['asking_value']):>12} "
+              f"{_money(o['repriced_value']):>12} {_money(o['supported_value']):>12} "
+              f"{o['supported_vs_asking_pct']:>7.1%}  {o['financing_verdict']}")
+    failed_checks = 0
+    for res in batch.results:
+        if res.check is not None:
+            status = "OK" if res.check.ok else "FAILED"
+            failed_checks += not res.check.ok
+            print(f"check {res.workbook.name}: {status}, {res.check.compared} cells, "
+                  f"{len(res.check.mismatches)} mismatches, {len(res.check.missing)} missing")
+    for path, err in batch.errors:
+        print(f"skipped {path}: {err}", file=sys.stderr)
+    n = len(batch.results)
+    print(f"Wrote {n} workbook{'s' if n != 1 else ''}, {n} memo{'s' if n != 1 else ''} "
+          f"and {batch.summary}")
+    return 1 if batch.errors or failed_checks else 0
+
+
+def cmd_dashboard(args) -> int:
+    from .check import RecalcError
+    from .export import export_dashboard
+
+    try:
+        out = export_dashboard(args.workbook, args.pdf)
+    except RecalcError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    print(f"Wrote {out}")
+    return 0
+
+
 def cmd_fetch(args) -> int:
     from .fetch import refresh
 
@@ -102,6 +152,21 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("summary", help="print seller vs repriced value for several deals")
     s.add_argument("deals", nargs="+")
     s.set_defaults(func=cmd_summary)
+    mm = sub.add_parser("memo", help="write the buyer memo (.docx) for a deal file")
+    mm.add_argument("--deal", required=True, help="deal YAML file")
+    mm.add_argument("--out", help="output .docx (default out/<deal>-memo.docx)")
+    mm.set_defaults(func=cmd_memo)
+    bt = sub.add_parser("batch", help="workbook and memo for every deal in a folder, "
+                        "plus summary.xlsx")
+    bt.add_argument("deals_dir")
+    bt.add_argument("--out", default="out", help="output folder (default out/)")
+    bt.add_argument("--check", action="store_true",
+                    help="also recalculate each workbook in LibreOffice and compare")
+    bt.set_defaults(func=cmd_batch)
+    db = sub.add_parser("dashboard", help="print a workbook's Dashboard tab to PDF")
+    db.add_argument("workbook")
+    db.add_argument("--pdf", required=True, help="output .pdf")
+    db.set_defaults(func=cmd_dashboard)
     f = sub.add_parser("fetch-data", help="download BLS/SOI files and rebuild data/ extracts")
     f.set_defaults(func=cmd_fetch)
     args = p.parse_args(argv)
