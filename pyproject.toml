@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sde-value"
-version = "0.2.0"
+version = "0.3.0"
 description = "Seller's discretionary earnings workbook that tests add-backs and reprices owner pay at BLS market wages"
 readme = "README.md"
 requires-python = ">=3.10"
