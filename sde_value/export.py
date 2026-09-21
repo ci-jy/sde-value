@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import shutil
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -39,5 +39,17 @@ def export_dashboard(workbook: str | Path, pdf_path: str | Path) -> Path:
         if proc.returncode != 0 or not result.exists():
             raise RecalcError(f"LibreOffice failed: {proc.stderr.strip() or proc.stdout.strip()}")
         pdf_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(result, pdf_path)
+        pdf_path.write_bytes(_blank_timestamps(result.read_bytes()))
     return pdf_path
+
+
+def _blank_timestamps(pdf: bytes) -> bytes:
+    """Blank the creation/modification times LibreOffice stamps into the PDF.
+
+    The PDF is committed to docs/, and a re-export shouldn't differ just by
+    the time it ran. Each stamp is overwritten with spaces of the same length,
+    so the xref offsets still hold.
+    """
+    blank = lambda m: m.group(1) + b" " * len(m.group(2)) + m.group(3)  # noqa: E731
+    pdf = re.sub(rb"(/(?:CreationDate|ModDate)\()(D:[^)]*)(\))", blank, pdf)
+    return re.sub(rb"(<xmp:\w*Date>)([^<]+)(</)", blank, pdf)

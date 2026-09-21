@@ -32,10 +32,10 @@ def png(pdf: Path, page: int, dest: Path, tmp: Path, trim: bool = True) -> None:
                     "-f", str(page), "-l", str(page), str(pdf), str(stem)], check=True)
     if trim:
         subprocess.run(["convert", f"{stem}.png", "-trim", "-bordercolor", "white",
-                        "-border", "20", str(dest)], check=True)
+                        "-border", "20", "-strip", str(dest)], check=True)
     else:
         subprocess.run(["convert", f"{stem}.png", "-bordercolor", "#cccccc", "-border", "1",
-                        str(dest)], check=True)
+                        "-strip", str(dest)], check=True)
     print(dest)
 
 

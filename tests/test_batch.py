@@ -132,4 +132,6 @@ def test_dashboard_pdf_is_one_page(tmp_path, hvac):
     assert data.startswith(b"%PDF")
     # only the dashboard prints: the other tabs are hidden in the copy sent to LibreOffice
     assert len(re.findall(rb"/Type\s*/Page(?!s)", data)) == 1
+    # the export timestamps are blanked out
+    assert not re.search(rb"D:\d{8}|<xmp:CreateDate>\d", data)
     assert main(["dashboard", str(path), "--pdf", str(tmp_path / "cli.pdf")]) == 0
