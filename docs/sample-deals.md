@@ -29,3 +29,15 @@ On the HVAC sensitivity grid, 12 of the 35 cells clear 1.25x and none of them is
 ```
 OK: 159 output cells on DCF, Financing, Sensitivity compared after LibreOffice recalculation, 0 mismatches, 0 missing
 ```
+
+## Supported value
+
+The dashboard and memo cap the repriced value at the largest financeable price. For all three samples the cap is the lower of the two, so the bank's 1.25x coverage sets the price, not the multiple:
+
+| Deal | Asking | Supported value | vs asking | Rejected add-backs |
+|---|---:|---:|---:|---:|
+| HVAC service | $1,547,200 | $593,621 | -61.6% | 4 ($92,700) |
+| Landscaping | $842,800 | $254,479 | -69.8% | 3 ($62,800) |
+| Laundromat | $708,750 | $319,062 | -55.0% | 3 ($38,400) |
+
+Average: 62.1% below asking. `tests/test_batch.py` checks that number in the recalculated summary workbook.
